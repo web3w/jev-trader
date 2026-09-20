@@ -1,0 +1,19 @@
+.requestHeader { display: flex; align-items: start; justify-content: space-between; gap: 16px; padding: 18px 20px 12px; }
+.requestHeader h3 { font-size: 15px; font-weight: 500; }
+.requestHeader p { margin-top: 6px; font: 10px var(--font-mono), monospace; color: var(--muted); }
+.closeRequest { display: flex; align-items: center; justify-content: center; flex: none; width: 28px; height: 28px; border: 1px solid var(--border-2); border-radius: 50%; background: white; color: var(--muted); font-size: 21px; cursor: pointer; }
+.closeRequest:focus-visible, .requestColumns pre:focus-visible { outline: 2px solid #6555ad; outline-offset: 2px; }
+.requestSource { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 10px 20px; background: #f4f1fa; color: #6555ad; font-size: 11px; line-height: 1.6; }
+.requestSource > span { color: var(--muted); }
+.requestColumns { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 12px; padding: 16px 20px 0; }
+.requestColumns section { min-width: 0; }
+.requestColumns h4 { margin-bottom: 8px; font: 500 10px var(--font-mono), monospace; letter-spacing: .08em; color: var(--muted); }
+.requestColumns pre { margin: 0; padding: 12px; max-height: 330px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; border: 1px solid #eae7ef; border-radius: 8px; background: #faf9fc; font: 11px/1.7 var(--font-mono), monospace; tab-size: 2; }
+.requestNote, .noRequest { padding: 12px 20px 16px; font-size: 11px; line-height: 1.6; color: var(--muted); }
+
+@media (max-width: 600px) {
+  .requestHeader { padding-inline: 16px; }
+  .requestColumns { grid-template-columns: 1fr; padding: 12px 16px 0; }
+  .requestColumns pre { max-height: 190px; }
+  .requestSource, .requestNote, .noRequest { padding-inline: 16px; }
+}

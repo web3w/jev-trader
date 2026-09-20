@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import type { BlockEvent } from "@/lib/types";
-import { fmtConf, fmtMon, fmtPrice, fmtSigned, fmtSignedMon } from "@/lib/format";
+import type { BlockEvent, Meta } from "@/lib/types";
+import type { Messages } from "@/lib/i18n";
+import { fmtConf, fmtInt, fmtPrice, fmtSigned } from "@/lib/format";
 import { smoothPath } from "./smooth";
 import styles from "./FlowChart.module.css";
 
@@ -26,11 +27,18 @@ function cellFill(e: BlockEvent): string {
 
 export default function FlowChart({
   events,
+  meta,
   latest,
+  messages,
 }: {
   events: BlockEvent[];
+  meta: Meta | null;
   latest: BlockEvent | null;
+  messages: Messages;
 }) {
+  const isHyperliquid = meta?.venue === "hyperliquid";
+  const priceDecimals = isHyperliquid ? 3 : 6;
+  const baseAsset = meta?.baseAsset ?? "MON";
   const panelRef = useRef<HTMLDivElement | null>(null);
   const originRef = useRef<number | null>(null);
   const scaleRef = useRef<{ lo: number; hi: number; block: number } | null>(null);
@@ -134,7 +142,7 @@ export default function FlowChart({
 
     const ticks = [0.25, 0.5, 0.75].map((f) => ({
       y: PAD_TOP + plotH * f,
-      label: fmtPrice(lo + (1 - f) * range),
+      label: fmtPrice(lo + (1 - f) * range, priceDecimals),
     }));
 
     const byBlock = new Map(series.map((e) => [e.block, e]));
@@ -155,37 +163,42 @@ export default function FlowChart({
       shift: w - ANCHOR_GAP - fx(last.block),
       endY: fy(last.mid),
     };
-  }, [events, latest, w, h]);
+  }, [events, latest, w, h, priceDecimals]);
 
   const hv = useMemo(() => {
     if (!model || hover === null) return null;
     const e = model.byBlock.get(hover);
     if (!e) return null;
     const x = model.fx(e.block);
-    const flip = x + model.shift > w - 168;
+    const tipWidth = isHyperliquid ? 190 : 132;
+    const flip = x + model.shift > w - tipWidth - 36;
     const ty = Math.min(Math.max(model.fy(e.mid) - 92, PAD_TOP - 46), model.base - 82);
-    const side = e.fill ? (e.fill.side === "buy" ? "BUY" : "SELL") : null;
+    const side = e.fill ? messages[e.fill.side].toUpperCase() : null;
     const q = e.quote;
-    const quoteText = q ? `${q.side === "buy" ? "bid" : "ask"} ${fmtPrice(q.price)}` : "no quote";
+    const quoteText = q ? `${q.side === "buy" ? messages.bid : messages.ask} ${fmtPrice(q.price, priceDecimals)}` : messages.noQuote;
     return {
       x,
       y: model.fy(e.mid),
-      tx: flip ? x - 146 : x + 14,
+      tx: flip ? x - tipWidth - 14 : x + 14,
+      width: tipWidth,
       ty,
-      block: `#${e.block}`,
-      price: fmtPrice(e.mid),
-      trade: side ? `FILL ${side} ${fmtMon(e.fill!.size, 0)}` : quoteText,
+      // Drawing and hit testing use internal block IDs; labels show only observed real chain heads.
+      block: isHyperliquid
+        ? `${messages.observedBlock} ${e.chainBlock == null ? "-" : fmtInt(e.chainBlock)}`
+        : `${messages.block} #${e.block}`,
+      price: fmtPrice(e.mid, priceDecimals),
+      trade: side ? `${messages.fill} ${side} ${e.fill!.size.toFixed(isHyperliquid ? 3 : 0)} ${baseAsset}` : quoteText,
       tint: e.fill ? (e.fill.side === "buy" ? "var(--buy-ink)" : "var(--sell-ink)") : q ? (q.side === "buy" ? "var(--buy-ink)" : "var(--sell-ink)") : "var(--muted)",
-      lat: e.decision && !e.decision.late ? `${Math.round(e.decision.latencyMs)} ms` : "late",
+      lat: e.decision ? (!e.decision.late ? `${Math.round(e.decision.latencyMs)} ms` : messages.late) : isHyperliquid ? messages.noDecision : messages.late,
     };
-  }, [model, hover, w]);
+  }, [model, hover, w, messages, priceDecimals, isHyperliquid, baseAsset]);
 
   const shown = latest ?? events[events.length - 1] ?? null;
   const d = shown?.decision ?? null;
   const late = d?.late === true;
-  const act = late ? "late" : (d?.action ?? "hold");
-  const word =
-    act === "buy" ? "Buying" : act === "sell" ? "Selling" : act === "late" ? "Missed the block" : "Holding";
+  const act = late ? "late" : (d?.action ?? (isHyperliquid ? shown?.fill?.side : null) ?? "hold");
+  const word = !d && isHyperliquid && shown?.fill ? messages.fill :
+    act === "buy" ? messages.buying : act === "sell" ? messages.selling : act === "late" ? (isHyperliquid ? messages.missedUpdate : messages.missedBlock) : messages.holding;
   const wordColor =
     act === "buy"
       ? "var(--buy-ink)"
@@ -200,9 +213,9 @@ export default function FlowChart({
   const pos = shown?.position;
   const stance =
     !pos || pos.side === "flat"
-      ? "flat"
-      : `${pos.side} ${fmtMon(pos.size, Number.isInteger(pos.size) ? 0 : 3)}`;
-  const pnlMon = shown?.totals?.pnlMon ?? 0;
+      ? messages.flat
+      : `${messages[pos.side]} ${pos.size.toFixed(Number.isInteger(pos.size) ? 0 : isHyperliquid ? 5 : 3)} ${baseAsset}`;
+  const pnl = (isHyperliquid ? shown?.totals?.pnlUsd : shown?.totals?.pnlMon) ?? 0;
   const pnlPct = shown?.totals?.pnlPct ?? 0;
 
   return (
@@ -219,7 +232,7 @@ export default function FlowChart({
         onPointerLeave={() => setHover(null)}
       >
         {!model || !shown ? (
-          <div className={styles.empty}>waiting for blocks…</div>
+          <div className={styles.empty}>{isHyperliquid ? messages.waitingMarketData : messages.waitingBlocks}</div>
         ) : (
           <>
             <svg className={styles.svg} viewBox={`0 0 ${w} ${h}`} width={w} height={h} aria-hidden="true">
@@ -297,7 +310,8 @@ export default function FlowChart({
                     <line className={styles.cross} x1={hv.x} x2={hv.x} y1={PAD_TOP - 12} y2={model.base + 10} />
                     <circle className={styles.crossDot} cx={hv.x} cy={hv.y} r="4.5" />
                     <g transform={`translate(${hv.tx.toFixed(1)},${hv.ty.toFixed(1)})`}>
-                      <rect className={styles.tip} width="132" height="78" rx="10" />
+                      {isHyperliquid ? <title>{messages.observedBlockHint}</title> : null}
+                      <rect className={styles.tip} width={hv.width} height="78" rx="10" />
                       <text className={styles.tipBlock} x="12" y="21">{hv.block}</text>
                       <text className={styles.tipPrice} x="12" y="41">{hv.price}</text>
                       <text className={styles.tipSide} x="12" y="58" fill={hv.tint}>{hv.trade}</text>
@@ -319,7 +333,7 @@ export default function FlowChart({
                 <circle cx={w - ANCHOR_GAP} cy="0" r="4" fill="var(--ink)" />
                 <rect x={w - TAG_W - 4} y="-10" width={TAG_W} height="20" rx="999" fill="var(--ink)" />
                 <text className={styles.tagText} x={w - 4 - TAG_W / 2} y="4" textAnchor="middle">
-                  {fmtPrice(model.last.mid)}
+                  {fmtPrice(model.last.mid, priceDecimals)}
                 </text>
               </g>
             </svg>
@@ -328,14 +342,14 @@ export default function FlowChart({
 
             <div className={styles.tl}>
               <div className={styles.price} key={shown.mid}>
-                {fmtPrice(shown.mid)}
+                {fmtPrice(shown.mid, priceDecimals)}
               </div>
               <div className={styles.sub}>
-                <span>MON/USDC</span>
-                <span>Kuru</span>
+                <span>{meta?.symbol ?? "MON/USDC"}</span>
+                <span>{isHyperliquid ? "Hyperliquid" : "Kuru"}</span>
                 <span>{stance}</span>
-                <span style={{ color: pnlMon >= 0 ? "var(--pnl-pos)" : "var(--pnl-neg)" }}>
-                  p&amp;l {fmtSignedMon(pnlMon, 3)} ({fmtSigned(pnlPct, 2)}%)
+                <span style={{ color: pnl >= 0 ? "var(--pnl-pos)" : "var(--pnl-neg)" }}>
+                  {messages.pnl} {fmtSigned(pnl, isHyperliquid ? 2 : 3)} {isHyperliquid ? "USDC" : "MON"} ({fmtSigned(pnlPct, 2)}%)
                 </span>
               </div>
             </div>
@@ -349,8 +363,8 @@ export default function FlowChart({
                 {word}
               </div>
               <div className={styles.sub}>
-                <span>{!d || late ? "late" : `${Math.round(d.latencyMs)} ms`}</span>
-                <span>conf {fmtConf(conf)}</span>
+                <span>{!d ? (isHyperliquid ? messages.noDecision : messages.late) : late ? messages.late : `${Math.round(d.latencyMs)} ms`}</span>
+                <span>{messages.confidence} {fmtConf(conf)}</span>
               </div>
             </div>
           </>

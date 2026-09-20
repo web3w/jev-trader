@@ -1,11 +1,14 @@
 "use client";
 
-import type { BlockEvent } from "@/lib/types";
+import type { BlockEvent, Meta } from "@/lib/types";
+import type { Messages } from "@/lib/i18n";
 import { fmtPct } from "@/lib/format";
 import styles from "./DecisionPanel.module.css";
 
 export interface DecisionPanelProps {
   latest: BlockEvent | null;
+  meta: Meta | null;
+  messages: Messages;
 }
 
 type Chosen = "buy" | "sell" | null;
@@ -47,7 +50,7 @@ function BarRow({ label, labelColor, active, value, fill, pct }: BarRowProps) {
   );
 }
 
-export default function DecisionPanel({ latest }: DecisionPanelProps) {
+export default function DecisionPanel({ latest, meta, messages }: DecisionPanelProps) {
   const decision = latest?.decision ?? null;
   const late = decision ? decision.late : true;
   // "hold" is treated as a non-decision, exactly as the feed does.
@@ -60,26 +63,26 @@ export default function DecisionPanel({ latest }: DecisionPanelProps) {
   const decided = decision !== null && !late && chosen !== null;
   const pctOf = (p: number) => (decided ? fmtPct(p) : "-");
 
-  const headline = chosen ? (chosen === "buy" ? "BUY" : "SELL") : "LATE";
+  const headline = messages[chosen ?? (!decision && meta?.venue === "hyperliquid" ? "noDecision" : decision && !late ? "hold" : "late")].toUpperCase();
   const headlineColor = chosen
     ? chosen === "buy"
       ? "var(--buy-ink)"
       : "var(--sell-ink)"
-    : "var(--late-ink)";
+    : !decision && meta?.venue === "hyperliquid" ? "var(--muted)" : "var(--late-ink)";
   const headlinePct = chosen ? fmtPct(probs[chosen]) : "";
 
   return (
     <div className={styles.panel}>
       <section className={styles.section}>
-        <div className={styles.sectionLabel}>STANDING ORDER</div>
+        <div className={styles.sectionLabel}>{messages.standingOrder}</div>
         <div className={styles.order}>
-          {"> post a bid or an ask on Kuru's MON/USDC book. every block. no abstaining."}
+          {meta?.venue === "hyperliquid" ? messages.spotInstruction : messages.orderInstruction}
         </div>
       </section>
 
       <section className={styles.section}>
         <div className={`${styles.sectionLabel} ${styles.sectionLabelGap}`}>
-          WHICH SIDE THIS BLOCK?
+          {meta?.venue === "hyperliquid" ? messages.decisionDirection : messages.whichSide}
         </div>
 
         <div className={styles.headline} style={{ color: headlineColor }}>
@@ -90,7 +93,7 @@ export default function DecisionPanel({ latest }: DecisionPanelProps) {
         </div>
 
         <BarRow
-          label="buy"
+          label={messages.buy}
           labelColor="var(--buy-ink)"
           active={chosen === "buy"}
           value={probs.buy}
@@ -98,7 +101,7 @@ export default function DecisionPanel({ latest }: DecisionPanelProps) {
           pct={pctOf(probs.buy)}
         />
         <BarRow
-          label="sell"
+          label={messages.sell}
           labelColor="var(--sell-ink)"
           active={chosen === "sell"}
           value={probs.sell}

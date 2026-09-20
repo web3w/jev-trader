@@ -1,0 +1,10 @@
+[Unit]
+Description=Check jev-trader.com TLS renewal twice daily
+
+[Timer]
+OnCalendar=*-*-* 03,15:00:00
+RandomizedDelaySec=1h
+Persistent=true
+
+[Install]
+WantedBy=timers.target

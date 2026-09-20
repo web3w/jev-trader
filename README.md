@@ -1,5 +1,7 @@
 # jev-trader
 
+Live website: [jev-trader.com](https://jev-trader.com) — a multilingual trading dashboard with public market feeds, simulated trading and explanations of Jev model decisions.
+
 One decision every Monad block. A TypeSafe Jev model watches the Kuru MON-USDC order book and answers buy or sell every ~300 ms. Every block posts a real post-only limit order on that side, one tick inside the touch, replacing the last one. Fills happen when a taker hits it, so the bot earns the spread instead of paying it. A small server streams every block to the dashboard.
 
 ## Run
@@ -9,6 +11,20 @@ One decision every Monad block. A TypeSafe Jev model watches the Kuru MON-USDC o
     bun run start
 
 With no `PRIVATE_KEY` it dry-runs: real book, real decisions, simulated fills. Set `MODEL=jev` and `TYPESAFE_AI_API_KEY` to use Jev; the default `mock` is a momentum heuristic stand-in.
+
+## Market pages and manual switching
+
+The home page `/` shows Hyperliquid HYPE/USDC while retaining the root URL; `/hyperliquid-hype-usdc` remains an alternative entry point to the same market. Kuru uses `/kuru-mon-usdc`. Legacy URLs `/hyperliquid/HYPE/USDC` and `/kuru/MON/USDC` redirect to their lowercase, hyphenated equivalents. Dashboard links switch markets, with Hyperliquid returning to the home page. Direct visits, refresh, browser history and new tabs are supported. Unsupported markets and trading pairs return 404.
+
+Each page subscribes to its route's market. Both markets can simulate trading concurrently; switching pages does not pause the other market. Multiple pages for one market share a simulation session. Balances and recent records are retained separately in process memory and reset when the service restarts.
+
+Hyperliquid reads real public market data and simulates resting orders without signing or sending real trades. Its simulated account starts with 100 USDC and 0 HYPE. Orders require at least 10 USDC notional, post-buy holdings are capped at 50 USDC at the quoted price, and fees assume the base spot maker rate of 0.040%. Fills are estimated only when subsequent real opposing trades strictly cross the resting price; they do not represent actual queue execution or account returns. Stale feeds stop simulated quoting, which resumes after connectivity recovers.
+
+`POST /venue` accepts `{"venue":"kuru"}` or `{"venue":"hyperliquid"}`, idempotently starts the selected simulation and returns its snapshot without stopping the other market. Page visits cannot start live sessions. `GET /`, `/history` and `/events` accept `?venue=kuru` or `?venue=hyperliquid`, defaulting to Hyperliquid when omitted; reads do not start sessions. SSE snapshots and subsequent events include `venue` and `revision`, with market isolation on both the server and client.
+
+Hyperliquid's header block height comes from the official `explorerBlock` subscription at `wss://rpc.hyperliquid.xyz/ws`, delivered as `latestBlock`. A record's `chainBlock` is the latest HyperCore block observed when the record was created, not an on-chain fill block for the simulated order. Disconnected or stale block feeds display no height rather than substituting a local counter. The internal `block` field is used only for event ordering and deduplication and is not displayed in the Hyperliquid interface.
+
+Related checks: `bun test src/sessions.test.ts src/server.test.ts src/hyperliquid.test.ts src/trader-pause.test.ts`.
 
 ## Endpoints
 

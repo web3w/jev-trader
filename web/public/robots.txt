@@ -1,0 +1,6 @@
+# Allow crawling of pages and rendering resources, excluding live market data endpoints.
+User-Agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://jev-trader.com/sitemap.xml

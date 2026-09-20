@@ -1,17 +1,20 @@
 import { appendFileSync, mkdirSync } from "node:fs";
 import { config } from "./config";
 import { Market, type Book, type Fill, type Quote, type QuoteResult, type Side } from "./market";
-import type { Action, Decision, Model, TradeState } from "./model";
+import type { Action, Decision, Model, ModelTrace, TradeState } from "./model";
 import { TradeFeed, type MakerFill, type TradePrint } from "./trades";
 
 export interface BlockEvent {
   block: number;
+  /** Chain head observed when a Hyperliquid record is created; simulated orders have no on-chain fill block. */
+  chainBlock?: number;
   ts: number;
   mid: number;
   bestBid: number;
   bestAsk: number;
   spreadBps: number;
   decision: { action: Action; probabilities: Record<Action, number>; upIn10: number; latencyMs: number; late: boolean } | null;
+  modelTrace?: ModelTrace;
   /** The order this block put on the book. */
   quote: Quote | null;
   /** Maker fills that landed in this block (aggregated), attached when the trade logs for it arrive. */
@@ -39,6 +42,7 @@ export interface Totals {
   pnlUsd: number;
   pnlMon: number;
   pnlPct: number;
+  tradingFeesUsd?: number;
 }
 
 interface Resting { side: Side; price: number; size: number; block: number }
@@ -57,6 +61,7 @@ export class Trader {
   readonly history: BlockEvent[] = [];
   private mids: number[] = [];
   private busy = false;
+  private generation = 0;
   private lastBook: Book | null = null;
   private trades: TradeFeed | null = null;
   /** Orders we know are resting on the book (live: from receipts; dry run: last block's simulated order). */
@@ -82,7 +87,15 @@ export class Trader {
     this.trades = new TradeFeed({ market: config.market, url: config.readRpcUrl, sizeDec, maker: this.market.address });
   }
 
+  pause() {
+    // Allow switching only for simulations; cancel old simulated orders and invalidate pending market/model results.
+    this.generation++;
+    this.busy = false;
+    if (!this.market.wallet) this.orders.clear();
+  }
+
   async onBlock(block: number) {
+    const generation = this.generation;
     this.totals.blocks++;
     this.confirmPending(block); // off the hot path: receipts for earlier blocks' sends
     if (this.totals.blocks % config.refreshBlocks === 0) this.market.refresh().catch(() => {}); // fee estimate + margin + vault check
@@ -95,13 +108,17 @@ export class Trader {
     const t0 = performance.now();
     try {
       const book = await this.market.readBook();
+      if (generation !== this.generation) return;
       const readMs = performance.now() - t0;
       this.lastBook = book;
       this.mids.push(book.mid);
       if (this.mids.length > 400) this.mids.shift();
-      this.trades?.poll(block).then(() => this.harvest()); // off the hot path: eth_getLogs for prints (and our fills) since the last poll
+      this.trades?.poll(block).then(() => {
+        if (generation === this.generation) this.harvest();
+      }); // Old fill logs must not modify the resumed session after switching.
 
       const decision = await this.model.decide(this.buildState(block, book));
+      if (generation !== this.generation) return;
       const wanted: Side = decision.action === "sell" ? "sell" : "buy";
       const other: Side = wanted === "buy" ? "sell" : "buy";
       // The position cap (and, live, margin funds) can only pick the reducing side. The probabilities still show the model's call.
@@ -126,7 +143,7 @@ export class Trader {
     } catch (e) {
       console.error(`block ${block}:`, (e as Error).message);
     } finally {
-      this.busy = false;
+      if (generation === this.generation) this.busy = false;
     }
   }
 
@@ -226,6 +243,9 @@ export class Trader {
     for (const [k, v] of Object.entries(book.depthBps)) depth[k + "bps"] = { bid: round(v.bid, 1), ask: round(v.ask, 1) };
     return {
       market: "MON-USDC",
+      venue: "Kuru",
+      baseAsset: "MON",
+      quoteAsset: "USDC",
       block,
       horizonBlocks: H,
       blockMs: 300,
@@ -277,6 +297,7 @@ export class Trader {
       decision: late
         ? { action: "hold", probabilities: { buy: 0, sell: 0, hold: 1 }, upIn10: 0.5, latencyMs: 0, late: true }
         : decision && { action: decision.action, probabilities: decision.probabilities, upIn10: decision.upIn10, latencyMs: Math.round(decision.latencyMs), late: false },
+      modelTrace: decision?.trace,
       quote,
       fill: null,
       resting: { bidMon: round(this.restingMon("buy"), 1), askMon: round(this.restingMon("sell"), 1) },

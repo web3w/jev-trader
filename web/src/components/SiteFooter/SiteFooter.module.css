@@ -1,0 +1,75 @@
+.footer {
+  max-width: min(var(--card-max), calc(100% - 32px));
+  margin: 0 auto 24px;
+  padding: 36px 32px 40px;
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  background: var(--bg);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr 1fr;
+  gap: 48px;
+}
+
+.columns section {
+  min-width: 0;
+}
+
+.columns h2 {
+  margin: 0 0 18px;
+  color: var(--badge-jev-fg);
+  font-size: 20px;
+  font-weight: 650;
+}
+
+.columns ul {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.columns a {
+  color: var(--ink-2);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.columns a:hover {
+  color: var(--badge-jev-fg);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.columns a:focus-visible {
+  outline: 2px solid var(--badge-jev-fg);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.columns p {
+  max-width: 34ch;
+  margin-top: 18px;
+  color: var(--link-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+@media (max-width: 699.98px) {
+  .footer {
+    padding: 28px 24px;
+  }
+
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .columns h2 {
+    margin-bottom: 12px;
+  }
+}

@@ -2,8 +2,8 @@
    owns the two-column main row.
 
    Desktop (>= 900px): the card is a fixed-height flex column (see globals.css)
-   and this row is its only flexible child, so nothing can push the page past
-   the viewport. Below 900px everything falls back to normal document flow. */
+   and this row is its only flexible child. The explanation card follows below.
+   Below 900px everything falls back to normal document flow. */
 
 .main {
   flex: 1;

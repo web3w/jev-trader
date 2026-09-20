@@ -223,3 +223,15 @@
 .filled .detail {
   font-weight: 600;
 }
+
+/* Preserve the full ten-digit chain height with thousands separators, not the internal event sequence. */
+.chainBlock {
+  width: 100px;
+}
+
+@media (max-width: 640px) {
+  .chainRow .conf,
+  .chainRow .lat {
+    display: none;
+  }
+}

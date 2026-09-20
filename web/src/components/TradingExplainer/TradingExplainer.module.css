@@ -1,0 +1,422 @@
+.card {
+  max-width: min(1400px, calc(100% - 32px));
+  margin: 0 auto 16px;
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  background: var(--bg);
+  color: var(--ink-2);
+}
+
+.header {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+
+.eyebrow {
+  margin-bottom: 10px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+}
+
+.heading h2 {
+  color: var(--ink);
+  font-size: clamp(22px, 2.4vw, 28px);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+}
+
+.intro {
+  max-width: 58ch;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.model {
+  padding: 16px 18px;
+  border-left: 2px solid var(--badge-jev-bg);
+  border-radius: 0 12px 12px 0;
+  background: #faf9fc;
+}
+
+.modelBadge {
+  display: inline-block;
+  padding: 4px 8px;
+  border: 1px solid #e5e0f5;
+  border-radius: 6px;
+  color: var(--badge-jev-fg);
+  background: var(--bg);
+  font: 500 11px var(--font-mono), monospace;
+  overflow-wrap: anywhere;
+}
+
+.model p {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.diagram {
+  margin-top: 28px;
+  padding: 16px 20px 22px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: #fbfaf8;
+}
+
+.diagramHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.diagramHeader > span {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.motionControl {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 9px;
+  border: 1px solid var(--border-2);
+  border-radius: 7px;
+  color: var(--muted);
+  background: var(--bg);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.motionControl svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.motionControl:hover {
+  color: var(--ink);
+  border-color: var(--muted-2);
+}
+
+.motionControl:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 3px;
+}
+
+.flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 30px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.step {
+  position: relative;
+  min-width: 0;
+  padding: 18px 16px;
+  border: 1px solid var(--border-2);
+  border-radius: 12px;
+  background: var(--bg);
+}
+
+.stepNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-bottom: 16px;
+  border-radius: 9px;
+  color: var(--buy-ink);
+  background: #eaf5ee;
+  font: 500 11px var(--font-mono), monospace;
+}
+
+.step:nth-child(2) .stepNumber {
+  color: var(--badge-jev-fg);
+  background: var(--badge-jev-bg);
+}
+
+.step:nth-child(3) .stepNumber {
+  color: var(--ink-2);
+  background: var(--panel);
+}
+
+.step h3 {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.step p {
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.connector {
+  position: absolute;
+  top: 29px;
+  right: -31px;
+  width: 30px;
+  height: 12px;
+  pointer-events: none;
+}
+
+.connector::before {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 1px;
+  background: #cfcfc6;
+}
+
+.connector::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  right: 2px;
+  width: 5px;
+  height: 5px;
+  border-top: 1px solid #a3a69b;
+  border-right: 1px solid #a3a69b;
+  transform: rotate(45deg);
+}
+
+.particle {
+  position: absolute;
+  top: 3px;
+  left: 2px;
+  width: 6px;
+  height: 6px;
+  border: 1px solid #8abda2;
+  border-radius: 50%;
+  background: #aed7c0;
+  animation: travel 2.8s linear infinite;
+}
+
+.step:nth-child(2) .particle {
+  border-color: #b0a2da;
+  background: #c7bbe7;
+}
+
+@keyframes travel {
+  from { transform: translateX(0); }
+  to { transform: translateX(19px); }
+}
+
+.diagram[data-paused="true"] .particle {
+  animation-play-state: paused;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 40px;
+  margin-top: 30px;
+}
+
+.sectionTitle {
+  margin-bottom: 14px;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.inputList {
+  border-top: 1px solid var(--border);
+}
+
+.inputHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.inputHeading .sectionTitle { margin-bottom: 0; }
+
+.caseButton {
+  flex: none;
+  padding: 1px 7px;
+  border: 1px solid var(--border-2);
+  border-radius: 5px;
+  color: var(--link-muted);
+  background: var(--bg);
+  font: inherit;
+  font-size: 10px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.caseButton:hover:not(:disabled) { color: var(--link); border-color: var(--muted-2); }
+.caseButton:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
+.caseButton:disabled { opacity: 0.5; cursor: default; }
+
+.caseDialog {
+  width: min(760px, calc(100vw - 24px));
+  max-width: calc(100vw - 24px);
+  max-height: min(560px, calc(100dvh - 24px));
+  margin: auto;
+  padding: 0;
+  overflow: auto;
+  border: 1px solid #dcd5ee;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 16px 60px #29203526;
+  color: var(--ink);
+  font-family: var(--font-sans), sans-serif;
+}
+
+.caseDialog::backdrop { background: #29203538; }
+
+.input {
+  display: grid;
+  grid-template-columns: minmax(95px, 0.55fr) minmax(0, 1.8fr);
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.input dt {
+  color: var(--muted);
+}
+
+.input dd {
+  overflow-wrap: anywhere;
+}
+
+.instruction {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+}
+
+.instruction p {
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.timing {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-2);
+  color: var(--muted);
+}
+
+.boundary {
+  margin-top: 22px;
+}
+
+.boundary ul {
+  display: grid;
+  gap: 9px;
+  padding: 0 0 0 15px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.75;
+}
+
+.boundary li::marker {
+  color: #b4b2a9;
+}
+
+.guideFooter {
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+
+.guideLink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  max-width: 100%;
+  color: var(--link-muted);
+  font-size: 12px;
+  line-height: 1.6;
+  text-decoration: underline;
+  text-decoration-color: var(--border-2);
+  text-underline-offset: 4px;
+}
+
+.guideLink:hover {
+  color: var(--link);
+  text-decoration-color: currentColor;
+}
+
+.guideLink:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+@media (max-width: 1000px) {
+  .card { padding: 24px; }
+  .header, .details { gap: 24px; }
+  .diagram { padding: 16px; }
+  .flow { gap: 22px; }
+  .step { padding: 16px 12px; }
+  .connector { right: -23px; width: 22px; }
+  .particle { width: 5px; height: 5px; animation-name: travelSmall; }
+  @keyframes travelSmall {
+    from { transform: translateX(0); }
+    to { transform: translateX(12px); }
+  }
+}
+
+@media (max-width: 740px) {
+  .header, .details { grid-template-columns: minmax(0, 1fr); }
+  .card { padding: 24px 20px; }
+  .model { padding: 14px 16px; }
+  .flow { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .step { display: flex; align-items: flex-start; gap: 14px; padding: 16px; }
+  .stepNumber { flex: none; margin-bottom: 0; }
+  .stepCopy { min-width: 0; }
+  .step h3 { font-size: 13px; }
+  .step p { font-size: 11px; }
+  .connector { top: calc(100% + 1px); left: 26px; right: auto; width: 12px; height: 26px; }
+  .connector::before { inset: 0 auto 0 50%; width: 1px; height: auto; }
+  .connector::after { top: auto; right: 3px; bottom: 2px; transform: rotate(135deg); }
+  .particle { top: 2px; left: 4px; animation-name: travelDown; }
+  @keyframes travelDown {
+    from { transform: translateY(0); }
+    to { transform: translateY(16px); }
+  }
+  .diagram { margin-top: 24px; padding: 14px; }
+  .details { margin-top: 24px; }
+  .input { grid-template-columns: minmax(70px, 0.6fr) minmax(0, 1.6fr); gap: 12px; font-size: 11px; }
+  .instruction { padding: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .particle { animation: none; }
+  .motionControl { display: none; }
+}

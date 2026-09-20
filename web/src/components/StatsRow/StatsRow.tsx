@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { BlockEvent, Meta } from "@/lib/types";
+import type { Messages } from "@/lib/i18n";
 import { fmtInt, uptime } from "@/lib/format";
 import styles from "./StatsRow.module.css";
 
@@ -11,10 +12,12 @@ export default function StatsRow({
   latest,
   avgLatencyMs,
   meta,
+  messages,
 }: {
   latest: BlockEvent | null;
   avgLatencyMs: number;
   meta: Meta | null;
+  messages: Messages;
 }) {
   const startedAt = meta?.startedAt ?? null;
   // Ticks once a second; starts on the client so SSR and hydration agree.
@@ -39,12 +42,12 @@ export default function StatsRow({
 
   return (
     <div className={styles.stats}>
-      <span>last {last}</span>
-      <span>avg {avg}</span>
-      <span className={styles.nowrap}>{totals ? fmtInt(totals.decisions) : DASH} calls</span>
-      <span className={styles.nowrap}>{totals ? fmtInt(totals.fills) : DASH} fills</span>
+      <span>{messages.last} {last}</span>
+      <span>{messages.avg} {avg}</span>
+      <span className={styles.nowrap}>{totals ? fmtInt(totals.decisions) : DASH} {messages.calls}</span>
+      <span className={styles.nowrap}>{totals ? fmtInt(totals.fills) : DASH} {messages.fills}</span>
       <span className={styles.spacer} />
-      <span>uptime {up ?? "00:00:00"}</span>
+      <span>{messages.uptime} {up ?? "00:00:00"}</span>
     </div>
   );
 }

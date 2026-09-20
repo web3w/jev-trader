@@ -12,8 +12,8 @@ export function fmtInt(n: number | null | undefined): string {
 }
 
 /** 0.0222354 -> "0.022235" (6 decimals, MON/USDC ticks) */
-export function fmtPrice(n: number | null | undefined): string {
-  return safe(n).toFixed(6);
+export function fmtPrice(n: number | null | undefined, decimals = 6): string {
+  return safe(n).toFixed(decimals);
 }
 
 /** 0.0045 -> "$0.0045"; negatives -> "-$0.0045" */

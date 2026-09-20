@@ -11,6 +11,7 @@
 
 .panel {
   position: relative;
+  container-type: inline-size;
   flex: 1;
   min-height: 0;
   background: var(--panel);
@@ -139,6 +140,7 @@
   position: absolute;
   top: 18px;
   left: 22px;
+  max-width: calc(66% - 32px);
   pointer-events: none;
 }
 
@@ -146,6 +148,7 @@
   position: absolute;
   top: 18px;
   right: 22px;
+  max-width: calc(34% - 32px);
   text-align: right;
   pointer-events: none;
 }
@@ -221,6 +224,32 @@
   justify-content: center;
   font: 400 13px var(--font-sans), sans-serif;
   color: var(--muted-2);
+}
+
+/* Use actual chart width to reserve space for Chinese, Korean and longer status labels without covering prices. */
+@container (max-width: 480px) {
+  .tl {
+    max-width: calc(60% - 28px);
+  }
+
+  .tr {
+    max-width: calc(40% - 28px);
+  }
+
+  .price {
+    font-size: clamp(18px, 8cqi, 26px);
+  }
+
+  .word {
+    font-size: clamp(16px, 6cqi, 20px);
+    white-space: normal;
+  }
+
+  .sub {
+    gap: 3px 8px;
+    font-size: 10px;
+    white-space: normal;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

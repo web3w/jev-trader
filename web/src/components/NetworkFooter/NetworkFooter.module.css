@@ -1,0 +1,80 @@
+.footer {
+  flex: none;
+  margin: 16px 24px 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.footer dt {
+  color: var(--muted);
+}
+
+.footer dd {
+  color: var(--ink-2);
+}
+
+.network {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+}
+
+.network > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+}
+
+.contracts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 24px;
+  margin-top: 10px;
+}
+
+.contracts dd {
+  margin-top: 2px;
+  font-family: var(--font-mono), monospace;
+  overflow-wrap: anywhere;
+}
+
+.footer a {
+  color: var(--link-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footer a:hover {
+  color: var(--ink);
+}
+
+.footer a:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 3px;
+}
+
+@media (max-width: 899.98px) {
+  .footer {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
+  .contracts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.marketDetails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin-top: 10px;
+  color: var(--muted);
+}
+
+.note {
+  flex-basis: 100%;
+  color: var(--muted-2);
+}

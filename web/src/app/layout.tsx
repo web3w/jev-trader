@@ -17,8 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Jev Trader",
-  description: "One AI trade decision every Monad block.",
+  title: "Jev AI Decision Model Trading Case Study | Jev Trader",
+  description: "Explore Jev Trader free through live market data and paper-trading examples. Learn how the Jev AI decision model connects market inputs with execution.",
+  keywords: ["Jev trader free", "Jev Trader", "Jev AI decision model", "paper trading"],
 };
 
 export const viewport: Viewport = {
@@ -30,7 +31,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+      </body>
     </html>
   );
 }

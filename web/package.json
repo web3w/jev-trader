@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "check:seo": "node scripts/check-score-faq-seo.mjs"
   },
   "dependencies": {
     "next": "16.3.4",

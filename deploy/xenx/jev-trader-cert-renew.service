@@ -1,0 +1,10 @@
+[Unit]
+Description=Renew jev-trader.com TLS certificate
+Wants=network-online.target
+After=network-online.target docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/root/www/jev-trader/deploy/xenx/renew-cert.sh
+TimeoutStartSec=15min

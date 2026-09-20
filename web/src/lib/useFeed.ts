@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useReducer } from "react";
-import type { BlockEvent, ConnectionState, FeedState, Fill, Meta, Quote } from "./types";
+import { useEffect, useReducer, useState } from "react";
+import type { BlockEvent, ConnectionState, FeedState, Fill, Meta, Quote, Venue } from "./types";
 
 export { useUptime } from "./useUptime";
 
@@ -20,10 +20,11 @@ interface State extends FeedState {
 }
 
 type Action =
-  | { type: "snapshot"; meta: Meta | null; history: BlockEvent[] }
+  | { type: "snapshot"; meta: Meta | null; history: BlockEvent[]; fromResponse?: boolean }
+  | { type: "meta"; meta: Meta }
   | { type: "block"; event: BlockEvent }
-  | { type: "fill"; block: number; fill: Fill }
-  | { type: "quote"; block: number; quote: Quote }
+  | { type: "fill"; venue: Venue; revision: number; block: number; fill: Fill }
+  | { type: "quote"; venue: Venue; revision: number; block: number; quote: Quote }
   | { type: "connection"; connection: ConnectionState };
 
 const initialState: State = {
@@ -57,8 +58,19 @@ function reducer(state: State, action: Action): State {
     case "connection":
       return state.connection === action.connection ? state : { ...state, connection: action.connection };
 
+    case "meta":
+      if (action.meta.revision !== state.meta?.revision) return state;
+      return { ...state, meta: action.meta };
+
     case "snapshot": {
+      if (!action.meta || action.meta.revision < (state.meta?.revision ?? -1)) return state;
+      if (action.fromResponse && action.meta.revision === state.meta?.revision) return state;
       const history = Array.isArray(action.history) ? action.history : [];
+      // POST and SSE may arrive in either order; stale responses must not overwrite newer session data.
+      const last = history[history.length - 1];
+      if (action.meta.revision === state.meta?.revision && state.latest && (!last || last.block < state.latest.block)) {
+        return state;
+      }
       const events = history.length > CAP ? history.slice(history.length - CAP) : history;
       let latSum = 0;
       let latCount = 0;
@@ -82,7 +94,7 @@ function reducer(state: State, action: Action): State {
 
     case "block": {
       const ev = action.event;
-      if (!ev || typeof ev.block !== "number") return state;
+      if (!ev || typeof ev.block !== "number" || ev.venue !== state.meta?.venue || ev.revision !== state.meta.revision) return state;
       const prev = state.events;
       const last = prev.length ? prev[prev.length - 1] : null;
 
@@ -145,6 +157,7 @@ function reducer(state: State, action: Action): State {
     }
 
     case "fill": {
+      if (action.venue !== state.meta?.venue || action.revision !== state.meta.revision) return state;
       const idx = indexOfBlock(state.events, action.block);
       if (idx < 0) return state;
       const events = state.events.slice();
@@ -158,6 +171,7 @@ function reducer(state: State, action: Action): State {
     }
 
     case "quote": {
+      if (action.venue !== state.meta?.venue || action.revision !== state.meta.revision) return state;
       const idx = indexOfBlock(state.events, action.block);
       if (idx < 0) return state;
       const events = state.events.slice();
@@ -176,35 +190,39 @@ function reducer(state: State, action: Action): State {
 }
 
 function parseMeta(raw: Record<string, unknown> | null): Meta | null {
-  if (!raw) return null;
+  if (!raw || (raw.venue !== "kuru" && raw.venue !== "hyperliquid") || typeof raw.revision !== "number") return null;
   return {
+    revision: raw.revision,
+    latestBlock: typeof raw.latestBlock === "number" ? raw.latestBlock : undefined,
+    venue: raw.venue,
+    symbol: typeof raw.symbol === "string" ? raw.symbol : "",
+    baseAsset: typeof raw.baseAsset === "string" ? raw.baseAsset : "",
+    quoteAsset: typeof raw.quoteAsset === "string" ? raw.quoteAsset : "",
+    marketStatus: raw.marketStatus === "live" || raw.marketStatus === "reconnecting" ? raw.marketStatus : "connecting",
+    marketUrl: typeof raw.marketUrl === "string" ? raw.marketUrl : "",
     model: typeof raw.model === "string" ? raw.model : "",
     wallet: typeof raw.wallet === "string" ? raw.wallet : null,
     dryRun: Boolean(raw.dryRun),
-    market: typeof raw.market === "string" ? raw.market : "MON/USDC",
+    market: typeof raw.market === "string" ? raw.market : "",
+    chainId: typeof raw.chainId === "number" ? raw.chainId : null,
+    marginAccount: typeof raw.marginAccount === "string" ? raw.marginAccount : null,
     startedAt: typeof raw.startedAt === "number" ? raw.startedAt : Date.now(),
   };
 }
 
-/**
- * Live block feed over SSE.
- *
- * Connects to `${apiUrl}/events` and handles: `snapshot` (meta + history),
- * `block` (append, deduped by block number, capped at 1000), `quote`
- * ({ block, quote } -> replaces that block's quote once its receipt lands), `fill`
- * ({ block, fill } -> a taker hit our resting order in that block) and `ping` (liveness).
- * Reconnects with 1s -> 10s backoff, surfacing `connection`.
- */
-export function useFeed(apiUrl: string): FeedState {
+/** Start the simulated market selected by the route and accept only its SSE snapshots and updates. */
+export function useFeed(apiUrl: string, venue: Venue) {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined" || typeof EventSource === "undefined") return;
     const base = (apiUrl || "").replace(/\/+$/, "");
-
     let closed = false;
     let attempt = 0;
     let es: EventSource | null = null;
+    let request: AbortController | null = null;
     let retryTimer: ReturnType<typeof setTimeout> | undefined;
     let staleTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -216,6 +234,8 @@ export function useFeed(apiUrl: string): FeedState {
     };
 
     const teardown = () => {
+      request?.abort();
+      request = null;
       if (es) {
         es.onopen = null;
         es.onerror = null;
@@ -228,6 +248,7 @@ export function useFeed(apiUrl: string): FeedState {
     const scheduleReconnect = () => {
       if (closed) return;
       teardown();
+      setLoading(false);
       dispatch({ type: "connection", connection: "reconnecting" });
       const delay = Math.min(BACKOFF_MAX, BACKOFF_MIN * 2 ** attempt);
       attempt++;
@@ -235,68 +256,100 @@ export function useFeed(apiUrl: string): FeedState {
       retryTimer = setTimeout(connect, delay);
     };
 
-    const handle = (type: string, fn: (data: unknown) => void) => {
-      es?.addEventListener(type, (raw: Event) => {
+    const handle = (source: EventSource, type: string, fn: (data: unknown) => void) => {
+      source.addEventListener(type, (raw: Event) => {
+        // After navigation or connection replacement, stale requests and queued events must not change the current market.
+        if (closed || source !== es) return;
         armStaleTimer();
         const payload = (raw as MessageEvent).data;
         if (typeof payload !== "string" || !payload) return;
         let data: unknown;
-        try {
-          data = JSON.parse(payload);
-        } catch {
-          return;
-        }
+        try { data = JSON.parse(payload); } catch { return; }
         fn(data);
       });
     };
 
-    function connect() {
+    async function connect() {
       if (closed) return;
+      setLoading(true);
       dispatch({ type: "connection", connection: attempt === 0 ? "connecting" : "reconnecting" });
-      es = new EventSource(`${base}/events`);
+      const controller = new AbortController();
+      request = controller;
+      try {
+        const response = await fetch(`${base}/venue`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ venue }),
+          signal: AbortSignal.any([controller.signal, AbortSignal.timeout(30_000)]),
+        });
+        const data = await response.json();
+        if (closed || request !== controller) return;
+        if (!response.ok) throw new Error(typeof data.error === "string" ? data.error : "market_unavailable");
+        const meta = parseMeta(data);
+        if (!meta || meta.venue !== venue) throw new Error("market_unavailable");
+        dispatch({ type: "snapshot", meta, history: Array.isArray(data.history) ? data.history : [], fromResponse: true });
+        dispatch({ type: "connection", connection: attempt === 0 ? "connecting" : "reconnecting" });
+        setError(null);
+        request = null;
 
-      es.onopen = () => {
-        attempt = 0;
-        dispatch({ type: "connection", connection: "live" });
+        // The first SSE snapshot fills the gap between startup and subscription so no records are missed.
+        const source = es = new EventSource(`${base}/events?venue=${venue}`);
         armStaleTimer();
-      };
-      es.onerror = () => {
-        if (!closed) scheduleReconnect();
-      };
+        source.onopen = () => {
+          if (closed || source !== es) return;
+          attempt = 0;
+          setLoading(false);
+          dispatch({ type: "connection", connection: "live" });
+          armStaleTimer();
+        };
+        source.onerror = () => {
+          if (!closed && source === es) scheduleReconnect();
+        };
 
-      handle("snapshot", (data) => {
-        const d = (data ?? {}) as Record<string, unknown>;
-        const history = Array.isArray(d.history) ? (d.history as BlockEvent[]) : [];
-        dispatch({ type: "snapshot", meta: parseMeta(d), history });
-      });
-      handle("block", (data) => {
-        dispatch({ type: "block", event: data as BlockEvent });
-      });
-      handle("fill", (data) => {
-        const d = (data ?? {}) as { block?: number; fill?: Fill };
-        if (typeof d.block !== "number" || !d.fill) return;
-        dispatch({ type: "fill", block: d.block, fill: d.fill });
-      });
-      handle("quote", (data) => {
-        const d = (data ?? {}) as { block?: number; quote?: Quote };
-        if (typeof d.block !== "number" || !d.quote) return;
-        dispatch({ type: "quote", block: d.block, quote: d.quote });
-      });
-      handle("ping", () => {
-        dispatch({ type: "connection", connection: "live" });
-      });
+        handle(source, "snapshot", (data) => {
+          const d = (data ?? {}) as Record<string, unknown>;
+          const meta = parseMeta(d);
+          if (!meta || meta.venue !== venue) return;
+          const history = Array.isArray(d.history) ? (d.history as BlockEvent[]) : [];
+          dispatch({ type: "snapshot", meta, history });
+        });
+        handle(source, "meta", (data) => {
+          const meta = parseMeta((data ?? {}) as Record<string, unknown>);
+          if (meta?.venue === venue) dispatch({ type: "meta", meta });
+        });
+        handle(source, "block", (data) => {
+          const event = data as BlockEvent | null;
+          if (event?.venue === venue) dispatch({ type: "block", event });
+        });
+        handle(source, "fill", (data) => {
+          const d = (data ?? {}) as { venue: Venue; revision: number; block?: number; fill?: Fill };
+          if (d.venue !== venue || typeof d.block !== "number" || !d.fill) return;
+          dispatch({ type: "fill", venue: d.venue, revision: d.revision, block: d.block, fill: d.fill });
+        });
+        handle(source, "quote", (data) => {
+          const d = (data ?? {}) as { venue: Venue; revision: number; block?: number; quote?: Quote };
+          if (d.venue !== venue || typeof d.block !== "number" || !d.quote) return;
+          dispatch({ type: "quote", venue: d.venue, revision: d.revision, block: d.block, quote: d.quote });
+        });
+        handle(source, "ping", () => dispatch({ type: "connection", connection: "live" }));
+      } catch (error) {
+        if (closed || controller.signal.aborted) return;
+        setError(error instanceof Error ? error.message : "market_unavailable");
+        scheduleReconnect();
+      } finally {
+        if (request === controller) request = null;
+      }
     }
 
-    connect();
-
+    void connect();
     return () => {
       closed = true;
       if (retryTimer) clearTimeout(retryTimer);
       teardown();
     };
-  }, [apiUrl]);
+  }, [apiUrl, venue]);
 
-  return state;
+  return { ...state, loading, error };
 }
 
 export default useFeed;
