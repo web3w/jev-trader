@@ -2,6 +2,9 @@ import type { Locale } from "@/lib/i18n";
 import { scoreFaqPaths } from "./jev-score/routes";
 import { articlePaths, articleTitles, articleDescriptions } from "./jev-polymarket/routes";
 
+import { articlePaths as confidencePaths, articleTitles as confidenceTitles, articleDescriptions as confidenceDescriptions } from "./jev-confidence-trading/routes";
+import { articlePaths as nimblePaths, articleTitles as nimbleTitles, articleDescriptions as nimbleDescriptions } from "./nimble-ollama-vs-jev/routes";
+
 export const faqIndexPaths: Record<Locale, string> = {
   en: "/faq",
   "zh-CN": "/zh/faq",
@@ -18,6 +21,8 @@ export interface FaqArticle {
 // Keep published articles newest first. Add each new article once, above older entries.
 // List only real pages; do not use section anchors or invent publication dates.
 export const faqArticles: FaqArticle[] = [
+  { id: "nimble-ollama-vs-jev", paths: nimblePaths, title: nimbleTitles, description: nimbleDescriptions },
+  { id: "jev-confidence-trading", paths: confidencePaths, title: confidenceTitles, description: confidenceDescriptions },
   {
     id: "jev-polymarket",
     paths: articlePaths,

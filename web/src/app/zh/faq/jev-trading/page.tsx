@@ -46,6 +46,7 @@ export default function Page() {
           </ol>
         </nav>
         <Content />
+        <p>解读模拟结果前，可阅读<Link href="/zh/faq/jev-confidence-trading">Jev confidence 与校准评估方法</Link>。若要开展范围明确的 API 实验，可用同一份请求<Link href="/zh/faq/nimble-ollama-vs-jev">比较 Ollama 本地 Nimble 与托管 Jev</Link>。</p>
         <Link className={styles.back} href="/zh/faq">← 返回 FAQ，继续阅读</Link>
       </div>
     </main>

@@ -82,9 +82,9 @@ for (const [locale, path] of [["en", "/faq/jev-polymarket"], ["zh-CN", "/zh/faq/
   });
 }
 
-test("Chinese directory contains four articles after removing the comparison", async () => {
+test("Chinese directory contains six published articles and excludes the removed comparison", async () => {
   const { faqArticles } = await import("../src/app/faq/articles");
-  expect(faqArticles).toHaveLength(4);
+  expect(faqArticles).toHaveLength(6);
   const { default: FaqIndex } = await import("../src/app/faq/FaqIndex");
   const html = renderToStaticMarkup(<FaqIndex locale="zh-CN" />);
   const main = html.match(/<main\b[^>]*>[\s\S]*?<\/main>/)?.[0] ?? "";

@@ -47,6 +47,7 @@ export default function Page() {
           </ol>
         </nav>
         <Content />
+        <p>Before interpreting simulated results, read <Link href="/faq/jev-confidence-trading">how to test Jev confidence and calibration</Link>. For a bounded API experiment, compare <Link href="/faq/nimble-ollama-vs-jev">Nimble on Ollama with hosted Jev</Link> using the same request.</p>
         <p>Try the workflow in the <Link href="/">Jev Trader Hyperliquid demo</Link> or the <Link href="/kuru-mon-usdc">Kuru demo</Link>. Orders and fills shown in these demos are simulated.</p>
         <Link className={styles.back} href="/faq">← Back to FAQ</Link>
       </div>
