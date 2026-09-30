@@ -1,7 +1,7 @@
 .footer {
   max-width: min(var(--card-max), calc(100% - 32px));
   margin: 0 auto 24px;
-  padding: 36px 32px 40px;
+  padding: 24px 32px;
   border: 1px solid var(--border);
   border-radius: var(--card-radius);
   background: var(--bg);
@@ -9,8 +9,8 @@
 
 .columns {
   display: grid;
-  grid-template-columns: 1.1fr 1.3fr 1fr;
-  gap: 48px;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px;
 }
 
 .columns section {
@@ -18,58 +18,56 @@
 }
 
 .columns h2 {
-  margin: 0 0 18px;
-  color: var(--badge-jev-fg);
-  font-size: 20px;
-  font-weight: 650;
+  margin: 0 0 12px;
+  color: var(--ink-2);
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .columns ul {
   display: grid;
-  gap: 12px;
+  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.columns a {
+.columns li a,
+.more {
   color: var(--ink-2);
-  font-size: 15px;
+  font-size: 12px;
   line-height: 1.6;
   overflow-wrap: anywhere;
 }
 
-.columns a:hover {
+.footer a:hover {
   color: var(--badge-jev-fg);
   text-decoration: underline;
   text-underline-offset: 4px;
 }
 
-.columns a:focus-visible {
+.footer a:focus-visible {
   outline: 2px solid var(--badge-jev-fg);
   outline-offset: 4px;
   border-radius: 2px;
 }
 
-.columns p {
-  max-width: 34ch;
-  margin-top: 18px;
-  color: var(--link-muted);
-  font-size: 12px;
-  line-height: 1.7;
-}
-
 @media (max-width: 699.98px) {
   .footer {
-    padding: 28px 24px;
+    padding: 24px 20px;
   }
 
   .columns {
     grid-template-columns: minmax(0, 1fr);
-    gap: 28px;
+    gap: 24px;
   }
 
   .columns h2 {
     margin-bottom: 12px;
   }
 }
+
+.columns h2 a { font: inherit; color: inherit; }
+.more { display: inline-block; margin-top: 12px; }
+.sourceLinks { display: flex; flex-wrap: wrap; gap: 8px 20px; border-top: 1px solid var(--border); margin-top: 20px; padding-top: 16px; color: var(--link-muted); font-size: 11px; }
+.sourceLinks a { overflow-wrap: anywhere; }

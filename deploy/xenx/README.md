@@ -20,6 +20,8 @@
 
 OpenResty strips the `/api/` prefix and forwards those requests to the backend; other requests go to the frontend. SSE proxy buffering and caching are disabled. The source configuration is `deploy/xenx/jev-trader.conf`; it uses the existing shared OpenResty instance, outside this project’s Compose stack.
 
+JSON and SSE responses use gzip when supported by the client. Keep proxy buffering disabled so compressed events flush promptly. After proxy or frontend changes, run `node web/scripts/check-market-feed.mjs` against production (or set `FEED_BASE_URL` for another API). This read-only check requires both markets to be running and verifies complete snapshots followed by new blocks; successful page HTML alone does not verify the dashboard connection.
+
 The host file `/opt/1panel/apps/openresty/openresty/conf/conf.d/jev-trader.com.conf` is the apex port `80` entry managed by 1Panel. The adjacent `jev-trader.conf` corresponds to this project’s source configuration and manages `443/8081` for both domains and `80` for `www`. Ordinary www HTTP requests upgrade to HTTPS on the same hostname; certificate challenges serve files directly. Preserve this division when updating configuration; never have both files listen on the same domain and port `80` or `443`.
 
 The frontend build argument is `NEXT_PUBLIC_API_URL=/api`, using the same origin for backend access. This value is set at build time, so changes require rebuilding the frontend. The backend fixes `MODEL=mock`, `DRY_RUN=true` and an empty `PRIVATE_KEY`: it reads real market data and simulates trades without private keys or Jev calls.

@@ -1,0 +1,20 @@
+/* Keep the directory and shared footer aligned within the same page width. */
+.layout { --card-max: 1000px; }
+.page { max-width: min(var(--card-max), calc(100% - 32px)); margin: 16px auto; border: 1px solid var(--border); border-radius: var(--card-radius); background: var(--bg); }
+.header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; padding: 24px 32px; border-bottom: 1px solid var(--border); }
+.brand { font-size: 16px; font-weight: 600; }
+.header nav { display: flex; gap: 8px; flex-wrap: wrap; font-size: 12px; }
+.header nav a { padding: 8px; border-radius: 6px; }
+.header nav a[aria-current="page"] { color: var(--badge-jev-fg); background: var(--badge-jev-bg); }
+.content { padding: 40px 48px; }
+.back { color: var(--link-muted); font-size: 12px; }
+.content h1 { margin: 24px 0 12px; font-size: clamp(32px, 5vw, 44px); font-weight: 500; letter-spacing: -.03em; }
+.intro { color: var(--ink-2); line-height: 1.8; }
+.articles { list-style: none; margin: 32px 0 0; padding: 0; }
+.articles li { padding: 28px 0; border-top: 1px solid var(--border); }
+.articles h2 { font-size: 22px; line-height: 1.45; font-weight: 500; overflow-wrap: anywhere; }
+.articles p { color: var(--ink-2); line-height: 1.8; margin: 12px 0; }
+.read { display: inline-block; color: var(--badge-jev-fg); font-size: 13px; padding: 8px 0; }
+.page a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.page a:focus-visible { outline: 2px solid var(--badge-jev-fg); outline-offset: 4px; }
+@media (max-width: 699.98px) { .header, .content { padding: 24px; } .articles h2 { font-size: 20px; } }

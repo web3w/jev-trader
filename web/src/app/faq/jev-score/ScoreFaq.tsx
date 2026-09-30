@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect } from "react";
 import SiteFooter from "@/components/SiteFooter/SiteFooter";
 import { languages, messages, type Locale } from "@/lib/i18n";
@@ -31,7 +32,7 @@ export default function ScoreFaq({ locale }: { locale: Locale }) {
       <header className={styles.header}>
         <Link href="/" className={styles.brand}>‖ Jev Trader</Link>
         <div className={styles.headerActions}>
-          <Link href="/jev-ai-decision-model">← {copy.back}</Link>
+          <Link href="/faq/jev-ai-decision-model">← {copy.back}</Link>
           <nav className={styles.languageLinks} aria-label={messages[locale].language}>
             {languages.map((language) => <Link key={language.code} href={scoreFaqPaths[language.code]} hrefLang={language.code} lang={language.code} aria-current={language.code === locale ? "page" : undefined}>{language.label}</Link>)}
           </nav>
@@ -44,6 +45,14 @@ export default function ScoreFaq({ locale }: { locale: Locale }) {
           <h1>{copy.title}</h1>
           <p className={styles.intro}>{copy.intro}</p>
           <a className={styles.caseLink} href="#case-study">{copy.caseLink} <span aria-hidden="true">↘</span></a>
+          <Image
+            className={styles.brandBanner}
+            src="/jev-trader-banner.png"
+            alt={{ en: "Jev Trader: explore AI trading decisions with Choice, Score and Noul; HYPE/USDC and MON/USDC paper trading.", "zh-CN": "Jev Trader：通过 Choice、Score 和 Noul 探索 AI 交易决策，提供 HYPE/USDC 与 MON/USDC 模拟交易。", ko: "Jev Trader: Choice, Score, Noul을 통한 AI 거래 결정과 HYPE/USDC 및 MON/USDC 모의 거래." }[locale]}
+            width={1730}
+            height={909}
+            sizes="(max-width: 600px) calc(100vw - 66px), (max-width: 912px) calc(100vw - 112px), 800px"
+          />
         </div>
 
         <nav className={styles.contents} aria-label={copy.toc}>
@@ -107,7 +116,7 @@ export default function ScoreFaq({ locale }: { locale: Locale }) {
           <h2>{copy.sourcesTitle}</h2>
           <p>{copy.sourcesNote}</p>
           <ul>{sources.map((source) => <li key={source.href}><a href={source.href} target="_blank" rel="noopener noreferrer">{source.title} ↗</a></li>)}</ul>
-          <Link href="/jev-ai-decision-model">← {copy.back}</Link>
+          <Link href="/faq/jev-ai-decision-model">← {copy.back}</Link>
         </footer>
       </main>
       <SiteFooter locale={locale} />

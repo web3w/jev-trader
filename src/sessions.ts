@@ -17,7 +17,8 @@ export class Sessions {
 
   snapshot(venue: string = "hyperliquid") {
     const session = this.get(venue);
-    return { ...session.meta, history: session.history };
+    // Bound network snapshots while retaining the full in-memory trading history.
+    return { ...session.meta, history: session.history.slice(-100) };
   }
 
   async ensureStarted(venue: string) {

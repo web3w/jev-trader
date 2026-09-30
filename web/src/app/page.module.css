@@ -1,9 +1,13 @@
-/* Page shell. Component-level styling lives with each component; this file only
-   owns the two-column main row.
+/* Page shell and two-column dashboard. Desktop fills the fixed-height card;
+   below 900px the layout follows normal document flow. */
 
-   Desktop (>= 900px): the card is a fixed-height flex column (see globals.css)
-   and this row is its only flexible child. The explanation card follows below.
-   Below 900px everything falls back to normal document flow. */
+.dashboard {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  scroll-margin-top: 16px;
+}
 
 .main {
   flex: 1;
@@ -56,6 +60,10 @@
 }
 
 @media (max-width: 899.98px) {
+  .dashboard {
+    flex: none;
+  }
+
   .main {
     flex: none;
     flex-direction: column;

@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#050c16">
+    <title>JEVM — Intelligence Runtime for Traders</title>
+    <meta name="description" content="A vision for a network of AI Traders: Jev decision-making across assets, with programmable execution and human-defined risk boundaries.">
+    <link rel="canonical" href="https://jevm.ai/">
+    <link rel="alternate" hreflang="en" href="https://jevm.ai/">
+    <link rel="alternate" hreflang="zh-CN" href="https://jevm.ai/zh/">
+    <link rel="alternate" hreflang="x-default" href="https://jevm.ai/">
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/styles.css?v=20260928-16">
+  <script type="module" src="/assets/universe.js?v=20260928-16"></script>
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="JEVM">
+    <meta property="og:title" content="JEVM — Intelligence Runtime for Traders">
+    <meta property="og:description" content="JEV + EVM. Decision intelligence meets smart-contract execution.">
+    <meta property="og:url" content="https://jevm.ai/">
+    <meta name="twitter:card" content="summary">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="header-shell">
+      <header class="site-header wrap">
+        <a class="brand" href="/" aria-label="JEVM home"><span class="brand-mark" aria-hidden="true">J<span>·</span>M</span><span>JEVM</span></a>
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="#thesis">JEV + EVM</a>
+          <a href="#news">News</a>
+          <a href="#network">Market structure</a>
+          <a href="#today">Today</a>
+        </nav>
+        <div class="header-end">
+          <a class="language-link" href="/zh/" lang="zh-CN" hreflang="zh-CN">中文</a>
+          <a class="header-cta" href="https://jev-trader.com/" target="_blank" rel="noopener noreferrer">Explore the demo <span aria-hidden="true">↗</span></a>
+        </div>
+      </header>
+    </div>
+    <main id="main" lang="en">
+      <div class="dark-shell">
+        <section class="hero wrap" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <div class="hero-equation">
+              <h1 id="hero-title"><span>JEV</span><span class="hero-plus">+</span><span>EVM</span></h1>
+              <div class="hero-equation-labels"><span>Decision intelligence</span><span aria-hidden="true"></span><span>Smart-contract execution</span></div>
+            </div>
+            <p class="hero-tagline"><strong>JEVM.</strong> Intelligence Runtime for Traders</p>
+            <p class="hero-description">Classify with JEV. Screen assets. Trade through EVM.</p>
+            <div class="hero-links"><a class="hero-explore" href="#universe">Watch the decision loop <span aria-hidden="true">↘</span></a><a class="hero-explore hero-news-link" href="#news">See the industry signals <span aria-hidden="true">↗</span></a></div>
+          </div>
+          <figure class="universe" id="universe" aria-label="Interactive JEVM runtime and cross-asset markets">
+            <div class="universe-heading"><span>Onchain markets / a decision-to-execution loop</span><span>Illustrative / not live trading</span></div>
+            <div class="cosmos-stage">
+              <div class="planet-fallback" aria-hidden="true"></div>
+              <canvas class="universe-canvas" tabindex="0" role="img" aria-label="Rotatable three-dimensional JEVM runtime" aria-describedby="scene-help"></canvas>
+              <div class="core-label" aria-hidden="true"><span>JEVM</span><small>Intelligence runtime</small><em class="core-status">Observe</em></div>
+              <div class="execution-orbit-label"><strong>EVM</strong><span>Execution environment</span></div>
+              <div class="market-selectors" role="group" aria-label="Choose an asset or instrument">
+                <button class="market-node node-equities" type="button" data-market="equities" data-color="0.38,0.77,0.95" aria-pressed="true" aria-controls="market-equities"><span class="planet-swatch" aria-hidden="true"></span><span class="node-copy"><strong>Equities</strong><small>Company ownership</small></span></button>
+                <button class="market-node node-bonds" type="button" data-market="bonds" data-color="0.52,0.78,0.70" aria-pressed="false" aria-controls="market-bonds"><span class="planet-swatch" aria-hidden="true"></span><span class="node-copy"><strong>Bonds</strong><small>Fixed income</small></span></button>
+                <button class="market-node node-currencies" type="button" data-market="currencies" data-color="0.66,0.67,0.96" aria-pressed="false" aria-controls="market-currencies"><span class="planet-swatch" aria-hidden="true"></span><span class="node-copy"><strong>Currencies</strong><small>Money &amp; FX</small></span></button>
+                <button class="market-node node-commodities" type="button" data-market="commodities" data-color="0.91,0.66,0.39" aria-pressed="false" aria-controls="market-commodities"><span class="planet-swatch" aria-hidden="true"></span><span class="node-copy"><strong>Commodities</strong><small>Physical value</small></span></button>
+                <button class="market-node node-derivatives" type="button" data-market="derivatives" data-color="0.82,0.54,0.71" aria-pressed="false" aria-controls="market-derivatives"><span class="planet-swatch" aria-hidden="true"></span><span class="node-copy"><strong>Derivatives</strong><small>Futures &amp; options</small></span></button>
+              </div>
+            </div>
+            <div class="scene-toolbar">
+              <p id="scene-help">Drag / arrow keys to explore · Hover a planet to pause</p>
+              <div class="scene-controls"><button type="button" data-action="motion" aria-pressed="true" data-play="Play animation" data-pause="Pause animation">Pause animation</button><button type="button" data-action="reset">Replay</button></div>
+            </div>
+            <div class="decision-flow" aria-label="Illustrative decision workflow">
+              <div class="flow-heading"><span>FROM SIGNAL TO TRANSACTION</span><span>30-second concept loop · Select any step</span></div>
+              <ol class="flow-steps">
+                <li><button type="button" data-step="0" aria-pressed="true" aria-controls="flow-0"><span>01</span><strong>Observe</strong><small>Market state</small></button></li>
+                <li><button type="button" data-step="1" aria-pressed="false" aria-controls="flow-1"><span>02</span><strong>Classify</strong><small>JEV model</small></button></li>
+                <li><button type="button" data-step="2" aria-pressed="false" aria-controls="flow-2"><span>03</span><strong>Select</strong><small>Bounded decision</small></button></li>
+                <li><button type="button" data-step="3" aria-pressed="false" aria-controls="flow-3"><span>04</span><strong>Check</strong><small>Independent policy</small></button></li>
+                <li><button type="button" data-step="4" aria-pressed="false" aria-controls="flow-4"><span>05</span><strong>Execute</strong><small>EVM contracts</small></button></li>
+                <li><button type="button" data-step="5" aria-pressed="false" aria-controls="flow-5"><span>06</span><strong>Verify</strong><small>State feedback</small></button></li>
+              </ol>
+              <div class="flow-readout">
+                <article id="flow-0"><span class="flow-code">INPUT → MARKET STATE</span><h3>Read the market before making a move.</h3><p>Prices, liquidity, positions and contract state become context for Jev. Each planet represents an illustrative asset or instrument in an EVM-based market.</p></article>
+                <article id="flow-1" hidden><span class="flow-code">JEV → CANDIDATE / WATCH / EXCLUDE</span><h3>Turn market context into explicit categories.</h3><p>Ask a bounded screening question. Jev classifies the supplied examples against the mandate; this animation uses scripted labels, not actual model outputs.</p></article>
+                <article id="flow-2" hidden><span class="flow-code">JEV → BUY / SELL / HOLD / SKIP</span><h3>Screen an asset. Decide whether to act.</h3><p>The highlighted example moves forward as a candidate. A separate decision selects an allowed action; being eligible does not itself mean buy. Hold and skip remain valid outcomes.</p></article>
+                <article id="flow-3" hidden><span class="flow-code">POLICY → ALLOW / BLOCK</span><h3>A model decision is not permission to trade.</h3><p>Independent checks enforce wallet authorization, exposure limits, liquidity, slippage and contract allowlists. A failed check stops execution. This loop illustrates the allowed branch.</p></article>
+                <article id="flow-4" hidden><span class="flow-code">EVM → CONTRACT CALL</span><h3>Turn an approved intent into an onchain action.</h3><p>An authorized executor submits the approved call to an eligible market contract. EVM executes its logic; it does not run Jev or guarantee a fill. No wallet is connected here.</p></article>
+                <article id="flow-5" hidden><span class="flow-code">RECEIPT → UPDATED STATE → JEV</span><h3>Close the loop with what actually happened.</h3><p>Check the receipt, execution status and resulting balances before the next decision. Reverts, partial fills and finality need handling; legal settlement can involve additional processes.</p></article>
+              </div>
+              <p class="flow-disclaimer">Concept animation, not a live model or trading system. Asset availability, transfer restrictions and market access vary. Planets illustrate instruments, not investment recommendations.</p>
+            </div>
+            <figcaption class="market-insight" aria-live="polite" aria-atomic="true">
+              <article id="market-equities"><div><p class="insight-kind">Equities / an AI Trader vision</p><h2>From company value to every quote.</h2></div><div><p>Read fundamentals and capital flows. Coordinate valuation, liquidity and exposure. Specialized Traders share context within their own mandates.</p><ul class="activity-list" aria-label="Related market activities"><li>Trading</li><li>Market making</li><li>Securities lending</li><li>Risk management</li></ul></div></article>
+              <article id="market-bonds" hidden><div><p class="insight-kind">Bonds / an AI Trader vision</p><h2>Understand rates. Understand credit.</h2></div><div><p>Read the yield curve, changes in credit and duration exposure. Coordinate quotes, allocations and repo financing within the same risk boundaries.</p><ul class="activity-list" aria-label="Related market activities"><li>Trading</li><li>Market making</li><li>Repo financing</li><li>Risk management</li></ul></div></article>
+              <article id="market-currencies" hidden><div><p class="insight-kind">Currencies / an AI Trader vision</p><h2>Global flows. Shared context.</h2></div><div><p>Connect exchange rates, rate differentials and cross-currency exposure. Coordinate conversion, two-way quotes and liquidity with a shared view of risk.</p><ul class="activity-list" aria-label="Related market activities"><li>FX trading</li><li>Market making</li><li>Financing</li><li>Currency risk</li></ul></div></article>
+              <article id="market-commodities" hidden><div><p class="insight-kind">Commodities / an AI Trader vision</p><h2>Real-world supply. Informed decisions.</h2></div><div><p>Read supply, inventories and delivery constraints across energy, metals and agriculture. Distinguish physical spot markets from derivatives when coordinating trades and hedges.</p><ul class="activity-list" aria-label="Related market activities"><li>Spot trading</li><li>Liquidity provision</li><li>Hedging</li><li>Risk management</li></ul></div></article>
+              <article id="market-derivatives" hidden><div><p class="insight-kind">Derivatives / an AI Trader vision</p><h2>A clearer view of uncertainty.</h2></div><div><p>Futures and options are contracts based on underlyings, not new underlying asset classes. Traders assess basis, volatility, margin and portfolio exposure.</p><ul class="activity-list" aria-label="Related market activities"><li>Contract trading</li><li>Market making</li><li>Hedging</li><li>Margin risk</li></ul></div></article>
+            </figcaption>
+            <div class="execution-note"><span class="execution-symbol" aria-hidden="true"></span><p><strong>Decisions lead to bounded execution.</strong> EVM executes smart contracts in applicable onchain settings. Clearing and settlement remain distinct post-trade processes.</p><a href="#network">Explore market structure <span aria-hidden="true">↗</span></a></div>
+            <noscript><p class="scene-help-static">Interaction requires JavaScript. Read the full assets and activities in the Market structure section below.</p></noscript>
+          </figure>
+        </section>
+      </div>
+
+    <section class="thesis-section" id="thesis" aria-labelledby="thesis-title">
+      <div class="wrap thesis-grid">
+        <div class="section-side"><span class="section-kicker">The idea behind the name</span><span class="side-rule" aria-hidden="true"></span><span class="side-index">JEVM / 01</span></div>
+        <div class="thesis-main">
+          <h2 id="thesis-title">Intelligence meets execution.</h2>
+          <p>Jev evaluates decisions. The Ethereum Virtual Machine executes smart-contract logic. JEVM is the vision that connects them: specialized AI Traders operating across assets, with explicit permissions, risk limits and traceable outcomes.</p>
+        </div>
+        <div class="equation" aria-label="Jev decision model plus programmable execution equals JEVM vision">
+          <div><strong>JEV</strong><span>Decision model</span><p>Read context. Compare choices. Return structured judgment.</p></div>
+          <span class="equation-symbol" aria-hidden="true">+</span>
+          <div><strong>EVM</strong><span>Programmable execution</span><p>Encode rules. Move assets. Make outcomes verifiable.</p></div>
+          <span class="equation-symbol" aria-hidden="true">=</span>
+          <div class="equation-result"><strong>JEVM</strong><span>Intelligence runtime</span><p>A vision for decisions flowing into accountable market action.</p></div>
+        </div>
+        <div class="thesis-notes">
+          <p class="thesis-boundary">Jev is the decision model. EVM is an execution environment—not a blockchain or a source of investment judgment. This combination describes our direction, not a claim of a completed integration.</p>
+          <div class="thesis-sources"><a href="https://docs.typesafe.ai/introduction" target="_blank" rel="noopener noreferrer">Jev documentation <span aria-hidden="true">↗</span></a><a href="https://ethereum.org/developers/docs/evm/" target="_blank" rel="noopener noreferrer">How EVM works <span aria-hidden="true">↗</span></a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="news-section" id="news" aria-labelledby="news-title">
+      <div class="wrap">
+        <div class="news-heading"><h2 id="news-title"><span>Industry signals behind the thesis</span>The shift is real.</h2><p>Assets are becoming programmable. Trading is becoming more intelligent. These are industry developments—not a list of JEVM customers or partners.</p></div>
+        <div class="news-grid">
+          <article class="news-item news-featured">
+            <div class="news-meta"><span class="news-publisher">BlackRock</span><time datetime="2026-08-03">2026-08-03</time><span class="news-category">Ethereum</span></div>
+            <h3>Treasury fund shares. Now on Ethereum.</h3>
+            <p class="news-summary">BlackRock launched OnChain Shares of its Select Treasury Based Liquidity Fund on Ethereum. The shares can move between approved investor wallets; BNY provides transfer-agent and tokenization services.</p>
+            <p class="news-interpretation"><strong>OUR READ</strong>Institutional cash-management products are gaining programmable representations. These are fund shares, not directly issued Treasury securities, and access remains restricted.</p>
+            <a class="news-source" href="https://www.blackrock.com/cash/en-us/press-release-t3" target="_blank" rel="noopener noreferrer">Read the primary source <span aria-hidden="true">↗</span></a>
+          </article>
+          <div class="news-list">
+          <article class="news-item">
+            <div class="news-meta"><span class="news-publisher">SEC</span><time datetime="2026-09-17">2026-09-17</time><span class="news-category">Conditional exemption</span></div>
+            <h3>A conditional path for onchain stock trading.</h3>
+            <p class="news-summary">The SEC issued temporary, conditional exemptions for qualifying venues trading tokenized NMS stocks through permissioned automated market makers and liquidity pools. Symbol limits, volume caps and investor protections still apply.</p>
+            <p class="news-interpretation"><strong>OUR READ</strong>A regulated route is emerging—not blanket permission for every exchange or authorization for JEVM.</p>
+            <a class="news-source" href="https://www.sec.gov/newsroom/press-releases/2026-90-sec-issues-innovation-exemption-facilitate-trading-tokenized-nms-stock-request-comment" target="_blank" rel="noopener noreferrer">Read the primary source <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="news-item">
+            <div class="news-meta"><span class="news-publisher">J.P. Morgan</span><time datetime="2026-07-31">2026-07-31</time><span class="news-category">Market commentary</span></div>
+            <h3>AI is reshaping the trading workflow.</h3>
+            <p class="news-summary">J.P. Morgan's market-structure commentary describes growing AI use in trading workflows and data analysis, alongside blockchain adoption. It highlights fiduciary, regulatory and operational constraints on automated decisions.</p>
+            <p class="news-interpretation"><strong>OUR READ</strong>Decision assistance is a credible direction. This commentary does not establish autonomous trading performance or validate Jev.</p>
+            <a class="news-source" href="https://www.jpmorgan.com/insights/markets-and-economy/markets/technology-overtakes-liquidity-market-structure" target="_blank" rel="noopener noreferrer">Read the primary source <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="news-item">
+            <div class="news-meta"><span class="news-publisher">DTCC</span><time datetime="2026-07-15">2026-07-15</time><span class="news-category">Production milestone</span></div>
+            <h3>Tokenized securities enter live trading workflows.</h3>
+            <p class="news-summary">DTCC converted DTC-held securities into tokens used in production transactions, including collateral and securities lending workflows. Conversions took place on its private Besu network and Canton; the broader service launch was planned for October.</p>
+            <p class="news-interpretation"><strong>OUR READ</strong>The opportunity extends beyond asset issuance into market operations. This is multi-chain infrastructure, not Ethereum-only adoption or a JEVM integration.</p>
+            <a class="news-source" href="https://www.dtcc.com/press-releases/2026/dtcc-turns-tokenization-into-reality" target="_blank" rel="noopener noreferrer">Read the primary source <span aria-hidden="true">↗</span></a>
+          </article>
+          </div>
+        </div>
+        <div class="news-disclaimer"><p>Manually curated, not a live news feed. Our interpretation is separate from source facts. Coverage does not imply JEVM endorsement, completed product capabilities or investment returns.</p><span>Reviewed <time datetime="2026-09-28">2026-09-28</time></span></div>
+      </div>
+    </section>
+
+    <section class="scenario-section" id="scenario" aria-labelledby="scenario-title">
+      <div class="wrap">
+        <div class="section-heading-row"><span class="section-kicker">A possible market day</span><span class="scenario-label">Illustrative scenario · not live trading</span></div>
+        <h2 id="scenario-title">One surprise.<br>Every market responds.</h2>
+        <p class="section-intro">An unexpected rate decision lands. For a human desk, its consequences arrive across different screens and teams. In the JEVM vision, specialized Traders share the same event and coordinate their next decisions.</p>
+        <div class="event-line" aria-label="Illustrative cross-asset response to a rate decision">
+          <div class="event-start"><span class="event-pulse" aria-hidden="true"></span><span>Unexpected rate decision</span><small>One new signal enters the network</small></div>
+          <div class="event-stages">
+            <article><span class="stage-symbol">↗</span><h3>Bonds reprice</h3><p>The rates Trader reassesses yields and credit exposure.</p></article>
+            <article><span class="stage-symbol">◇</span><h3>Equities recalibrate</h3><p>The equity Trader revisits companies sensitive to financing costs.</p></article>
+            <article><span class="stage-symbol">≋</span><h3>Futures hedge</h3><p>The futures Trader examines where to offset shared exposure.</p></article>
+            <article><span class="stage-symbol">◌</span><h3>Options adapt</h3><p>The derivatives Trader rechecks volatility and protection costs.</p></article>
+          </div>
+          <div class="event-resolution"><span class="resolution-label">Across the whole network</span><p>Market makers update quotes. Risk Traders check combined positions. Execution follows human-set limits. Post-trade agents reconcile trades, clearing and settlement.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="network-section" id="network" aria-labelledby="network-title">
+      <div class="wrap">
+        <div class="section-heading-row"><span class="section-kicker">The market, in two dimensions</span><span class="side-index">JEVM / 02</span></div>
+        <div class="network-heading"><h2 id="network-title">What moves.<br>What the market does.</h2><p>An AI Trader could be defined by an intersection: an instrument, a market function and a human-set mandate. The same asset can be traded, quoted, lent or risk-managed.</p></div>
+        <div class="taxonomy-grid">
+          <div class="taxonomy-column">
+            <h3>Assets &amp; instruments <span>What can be traded</span></h3>
+            <ul>
+              <li><strong>Equities</strong><span>Ownership interests in companies.</span></li>
+              <li><strong>Bonds</strong><span>Debt securities with issuer obligations.</span></li>
+              <li><strong>Currencies</strong><span>Cash and foreign-exchange markets.</span></li>
+              <li><strong>Commodities</strong><span>Physical goods and their spot markets.</span></li>
+              <li><strong>Derivatives</strong><span>Futures and options tied to underlying markets.</span></li>
+            </ul>
+          </div>
+          <div class="taxonomy-column">
+            <h3>Market activities &amp; post-trade <span>What participants do</span></h3>
+            <ul>
+              <li><strong>Trading</strong><span>Buy and sell instruments.</span></li>
+              <li><strong>Market making</strong><span>Quote both buy and sell prices.</span></li>
+              <li><strong>Lending</strong><span>Lend or borrow assets and capital.</span></li>
+              <li><strong>Risk control</strong><span>Measure and limit exposure.</span></li>
+              <li><strong>Clearing</strong><span>Reconcile trades and obligations where applicable.</span></li>
+              <li><strong>Settlement</strong><span>Complete the required transfers.</span></li>
+            </ul>
+          </div>
+        </div>
+        <p class="taxonomy-sources">Definitions: <a href="https://www.imf.org/en/-/media/files/data/guides/mfsmcg-final.pdf" target="_blank" rel="noopener noreferrer">IMF financial instruments</a> · <a href="https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/FuturesMarketBasics/index.htm" target="_blank" rel="noopener noreferrer">CFTC futures</a> · <a href="https://www.bis.org/committees/cpmi/glossary" target="_blank" rel="noopener noreferrer">BIS clearing and settlement</a> · <a href="https://ethereum.org/developers/docs/evm/" target="_blank" rel="noopener noreferrer">Ethereum EVM</a></p>
+      </div>
+    </section>
+
+    <section class="runtime-section" aria-labelledby="runtime-title">
+      <div class="wrap runtime-grid">
+        <div><span class="section-kicker">How it would work</span><h2 id="runtime-title">From market context to accountable action.</h2><p class="runtime-lead">A decision is useful only when the system can explain it, respect constraints and follow through. JEVM connects those responsibilities in one loop.</p></div>
+        <ol class="runtime-steps">
+          <li><span>Observe</span><p>Bring market data, positions and contract state into a shared context.</p></li>
+          <li><span>Decide</span><p>Ask Jev bounded questions and compare possible actions.</p></li>
+          <li><span>Act</span><p>Apply human-defined permissions and risk limits before execution.</p></li>
+          <li><span>Verify</span><p>Track orders, fills, settlement and the reasoning behind each step.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="proof-section" id="today" aria-labelledby="proof-title">
+      <div class="wrap proof-grid">
+        <div><span class="section-kicker">Where we are today</span><h2 id="proof-title">The vision is broad.<br>The work is visible.</h2></div>
+        <div class="proof-copy"><p>Jev Trader is a public experiment in connecting market inputs, model-style decisions and execution records. Its current dashboard uses public market data, simulated orders and local mock decisions; integration with Jev, a TypeSafe AI decision model, is still in progress.</p><p>Explore the demonstration, inspect the workflow and judge the direction for yourself.</p><div class="proof-links"><a href="https://jev-trader.com/" target="_blank" rel="noopener noreferrer">Open the trading demo <span aria-hidden="true">↗</span></a><a href="https://docs.typesafe.ai/introduction" target="_blank" rel="noopener noreferrer">Read about the Jev model <span aria-hidden="true">↗</span></a><a href="https://github.com/web3w/jev-trader" target="_blank" rel="noopener noreferrer">View the source <span aria-hidden="true">↗</span></a></div></div>
+      </div>
+    </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-main"><p>Thousands of Traders.<br><span>One intelligence runtime.</span></p><a href="#main">Back to top <span aria-hidden="true">↑</span></a></div>
+      <div class="wrap footer-bottom"><span class="footer-brand">JEVM<span class="footer-dot">.</span>ai</span><span>Intelligence Runtime for Traders</span><span>Vision and illustrative scenarios © 2026 JEVM</span><a href="/zh/" lang="zh-CN" hreflang="zh-CN">中文版</a></div>
+    </footer>
+  </body>
+</html>

@@ -59,7 +59,7 @@ export default function Header({ meta, latest, connection, messages, locale, onL
   return (
     <header className={styles.header}>
       <div className={styles.top}>
-        <span className={styles.brand}>‖ Jev Trader</span>
+        <h1 className={styles.brand}>‖ Jev Trader</h1>
 
         <span className={styles.block}>{messages.block} {displayedBlock == null ? "-" : fmtInt(displayedBlock)}</span>
 
@@ -126,7 +126,7 @@ export default function Header({ meta, latest, connection, messages, locale, onL
           <div className={styles.marketStatusRow}>
             <span className={styles.marketStatus}>{loading ? messages.connecting : offline ?? messages.liveMarket}</span>
             <Link
-              href="/jev-ai-decision-model"
+              href="/faq/jev-ai-decision-model"
               className={styles.guideLink}
               target="_blank"
               rel="noopener noreferrer"

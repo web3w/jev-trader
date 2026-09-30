@@ -4,3 +4,7 @@ node_modules
 .git
 *.tsbuildinfo
 next-env.d.ts
+
+# Bun tests run locally and are not part of the production application.
+scripts/*.test.ts
+scripts/*.test.tsx

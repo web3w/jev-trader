@@ -68,3 +68,26 @@ test("POST rejects invalid markets and live starts", async () => {
   expect((await post("kuru")).status).toBe(409);
   expect(starts()).toBe(0);
 });
+
+test("initial POST and SSE snapshots send the latest 100 records without truncating stored history", async () => {
+  const { sessions, server, url } = setup();
+  const stored = sessions.get("hyperliquid").history;
+  stored.push(...Array.from({ length: 1000 }, (_, index) => event(index + 1)));
+  const response = await fetch(`${url}/venue`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ venue: "hyperliquid" }) });
+  const snapshot = await response.json() as { history: BlockEvent[] };
+  expect(snapshot.history).toHaveLength(100);
+  expect(snapshot.history.map((item) => item.block)).toEqual(Array.from({ length: 100 }, (_, index) => index + 901));
+  const stream = (await fetch(`${url}/events?venue=hyperliquid`)).body!.getReader();
+  // A snapshot can span multiple transport chunks; parse only a complete SSE frame.
+  let first = "";
+  while (!first.includes("\n\n")) first += await next(stream);
+  const data = first.match(/^data: (.+)$/m)?.[1];
+  if (!data) throw new Error("Initial SSE snapshot has no data field");
+  const initial = JSON.parse(data) as { history: BlockEvent[] };
+  expect(initial.history).toEqual(snapshot.history);
+  server.broadcast("hyperliquid", event(1001));
+  expect(await next(stream)).toContain('"block":1001');
+  expect(stored).toHaveLength(1000);
+  expect((await fetch(`${url}/history?venue=hyperliquid`).then((r) => r.json()) as BlockEvent[])).toHaveLength(1000);
+  await stream.cancel();
+});

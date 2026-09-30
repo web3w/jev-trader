@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
+import { headers } from "next/headers";
 import { Geist_Mono, Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const inter = Inter({
@@ -28,11 +30,25 @@ export const viewport: Viewport = {
   themeColor: "#F0EEE9",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const language = (await headers()).get("x-page-language") ?? "en";
   return (
-    <html lang="en" className={`${inter.variable} ${geistMono.variable}`}>
+    <html lang={language} className={`${inter.variable} ${geistMono.variable}`}>
       <body>
         {children}
+        {/* Load the shared Google Ads tag once after hydration. */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18465988236"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18465988236');
+          `}
+        </Script>
       </body>
     </html>
   );

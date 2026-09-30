@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#050c16">
+    <title>JEVM — 为交易员而生的智能运行时</title>
+    <meta name="description" content="JEVM 的未来愿景：以 Jev 决策模型连接股票、债券、货币、商品与衍生合约，让专业 AI Traders 在人设定的风险边界内协作。">
+    <link rel="canonical" href="https://jevm.ai/zh/">
+    <link rel="alternate" hreflang="en" href="https://jevm.ai/">
+    <link rel="alternate" hreflang="zh-CN" href="https://jevm.ai/zh/">
+    <link rel="alternate" hreflang="x-default" href="https://jevm.ai/">
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/styles.css?v=20260928-16">
+  <script type="module" src="/assets/universe.js?v=20260928-16"></script>
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="JEVM">
+    <meta property="og:title" content="JEVM — 为交易员而生的智能运行时">
+    <meta property="og:description" content="JEV + EVM：让决策智能与智能合约执行相遇。">
+    <meta property="og:url" content="https://jevm.ai/zh/">
+    <meta name="twitter:card" content="summary">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳转到正文</a>
+    <div class="header-shell">
+      <header class="site-header wrap">
+        <a class="brand" href="/zh/" aria-label="JEVM 首页"><span class="brand-mark" aria-hidden="true">J<span>·</span>M</span><span>JEVM</span></a>
+        <nav class="main-nav" aria-label="主导航">
+          <a href="#thesis">JEV + EVM</a>
+          <a href="#news">行业新闻</a>
+          <a href="#network">市场结构</a>
+          <a href="#today">今天的进展</a>
+        </nav>
+        <div class="header-end">
+          <a class="language-link" href="/" lang="en" hreflang="en">English</a>
+          <a class="header-cta" href="https://jev-trader.com/" target="_blank" rel="noopener noreferrer">查看演示 <span aria-hidden="true">↗</span></a>
+        </div>
+      </header>
+    </div>
+    <main id="main" lang="zh-CN">
+      <div class="dark-shell">
+        <section class="hero wrap" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <div class="hero-equation">
+              <h1 id="hero-title"><span>JEV</span><span class="hero-plus">+</span><span>EVM</span></h1>
+              <div class="hero-equation-labels"><span>决策智能</span><span aria-hidden="true"></span><span>智能合约执行</span></div>
+            </div>
+            <p class="hero-tagline"><strong>JEVM.</strong> Intelligence Runtime for Traders</p>
+            <p class="hero-description">用 JEV 分类决策，筛选资产，通过 EVM 执行交易。</p>
+            <div class="hero-links"><a class="hero-explore" href="#universe">观看决策流程 <span aria-hidden="true">↘</span></a><a class="hero-explore hero-news-link" href="#news">查看行业信号 <span aria-hidden="true">↗</span></a></div>
+          </div>
+          <figure class="universe" id="universe" aria-label="JEVM 智能运行时与跨资产市场网络，交互式愿景">
+            <div class="universe-heading"><span>链上市场 / 从决策到执行的循环</span><span>构想演示 / 非实时交易</span></div>
+            <div class="cosmos-stage">
+              <div class="planet-fallback" aria-hidden="true"></div>
+              <canvas class="universe-canvas" tabindex="0" role="img" aria-label="可旋转的 JEVM 三维智能运行时" aria-describedby="scene-help"></canvas>
+              <div class="core-label" aria-hidden="true"><span>JEVM</span><small>智能运行时</small><em class="core-status">感知市场</em></div>
+              <div class="execution-orbit-label"><strong>EVM</strong><span>合约执行环境</span></div>
+              <div class="market-selectors" role="group" aria-label="选择资产或工具">
+                <button class="market-node node-equities" type="button" data-market="equities" data-color="0.38,0.77,0.95" aria-pressed="true" aria-controls="market-equities"><span class="planet-swatch" aria-hidden="true"></span><span class="node-copy"><strong>股票</strong><small>Equities</small></span></button>
+                <button class="market-node node-bonds" type="button" data-market="bonds" data-color="0.52,0.78,0.70" aria-pressed="false" aria-controls="market-bonds"><span class="planet-swatch" aria-hidden="true"></span><span class="node-copy"><strong>债券</strong><small>Fixed income</small></span></button>
+                <button class="market-node node-currencies" type="button" data-market="currencies" data-color="0.66,0.67,0.96" aria-pressed="false" aria-controls="market-currencies"><span class="planet-swatch" aria-hidden="true"></span><span class="node-copy"><strong>货币／外汇</strong><small>Currencies</small></span></button>
+                <button class="market-node node-commodities" type="button" data-market="commodities" data-color="0.91,0.66,0.39" aria-pressed="false" aria-controls="market-commodities"><span class="planet-swatch" aria-hidden="true"></span><span class="node-copy"><strong>商品</strong><small>Commodities</small></span></button>
+                <button class="market-node node-derivatives" type="button" data-market="derivatives" data-color="0.82,0.54,0.71" aria-pressed="false" aria-controls="market-derivatives"><span class="planet-swatch" aria-hidden="true"></span><span class="node-copy"><strong>衍生合约</strong><small>期货 · 期权</small></span></button>
+              </div>
+            </div>
+            <div class="scene-toolbar">
+              <p id="scene-help">拖动 / 方向键探索 · 悬停行星暂停</p>
+              <div class="scene-controls"><button type="button" data-action="motion" aria-pressed="true" data-play="播放动画" data-pause="暂停动画">暂停动画</button><button type="button" data-action="reset">重新播放</button></div>
+            </div>
+            <div class="decision-flow" aria-label="决策流程概念演示">
+              <div class="flow-heading"><span>从市场信号，到链上交易</span><span>30 秒概念循环 · 可点选任意步骤</span></div>
+              <ol class="flow-steps">
+                <li><button type="button" data-step="0" aria-pressed="true" aria-controls="flow-0"><span>01</span><strong>感知市场</strong><small>市场状态</small></button></li>
+                <li><button type="button" data-step="1" aria-pressed="false" aria-controls="flow-1"><span>02</span><strong>分类判断</strong><small>JEV 模型</small></button></li>
+                <li><button type="button" data-step="2" aria-pressed="false" aria-controls="flow-2"><span>03</span><strong>筛选决策</strong><small>限定行动</small></button></li>
+                <li><button type="button" data-step="3" aria-pressed="false" aria-controls="flow-3"><span>04</span><strong>风控授权</strong><small>独立策略检查</small></button></li>
+                <li><button type="button" data-step="4" aria-pressed="false" aria-controls="flow-4"><span>05</span><strong>执行交易</strong><small>EVM 智能合约</small></button></li>
+                <li><button type="button" data-step="5" aria-pressed="false" aria-controls="flow-5"><span>06</span><strong>验证反馈</strong><small>更新市场状态</small></button></li>
+              </ol>
+              <div class="flow-readout">
+                <article id="flow-0"><span class="flow-code">输入 → 市场状态</span><h3>先理解市场，再决定是否行动。</h3><p>价格、流动性、持仓和合约状态共同构成 Jev 的上下文。每颗行星代表 EVM 金融市场中的一种示例资产或交易工具。</p></article>
+                <article id="flow-1" hidden><span class="flow-code">JEV → 候选 / 观察 / 排除</span><h3>将市场上下文，转化为明确的分类。</h3><p>提出有边界的筛选问题，由 Jev 根据任务约束对输入样本分类。动画中的标签由预设脚本驱动，不是真实模型输出。</p></article>
+                <article id="flow-2" hidden><span class="flow-code">JEV → 买入 / 卖出 / 持有 / 跳过</span><h3>筛出一项资产，再判断是否交易。</h3><p>高亮样本进入候选范围，另一次决策从允许的行动中选择。符合筛选条件并不等于应该买入；持有或跳过同样是有效结果。</p></article>
+                <article id="flow-3" hidden><span class="flow-code">独立策略 → 放行 / 阻止</span><h3>模型给出判断，不等于获得交易权限。</h3><p>独立检查钱包授权、敞口限额、流动性、滑点与合约白名单。任一检查失败都应阻止执行，本循环仅展示检查通过的分支。</p></article>
+                <article id="flow-4" hidden><span class="flow-code">EVM → 合约调用</span><h3>让获准的交易意图，成为链上行动。</h3><p>经授权的执行器向合适的市场合约提交调用。EVM 执行合约逻辑，不运行 Jev，也不保证成交；这里没有连接任何钱包。</p></article>
+                <article id="flow-5" hidden><span class="flow-code">交易回执 → 更新状态 → JEV</span><h3>用实际发生的结果，闭合决策循环。</h3><p>读取回执、执行状态与余额变化，再进入下一轮判断。实际系统还需处理回滚、部分成交和最终性；法律意义上的结算可能涉及额外流程。</p></article>
+              </div>
+              <p class="flow-disclaimer">概念动画，非实时模型或交易系统。资产可用性、转让限制与市场准入因场景而异。行星是交易工具的示意，不构成投资建议。</p>
+            </div>
+            <figcaption class="market-insight" aria-live="polite" aria-atomic="true">
+              <article id="market-equities"><div><p class="insight-kind">股票市场 / AI Trader 构想</p><h2>从公司价值，到每一次报价。</h2></div><div><p>理解基本面与资金流，协同判断估值、流动性和持仓敞口。不同职责的 Trader 共享上下文，各自遵守授权。</p><ul class="activity-list" aria-label="相关市场行为"><li>交易</li><li>做市</li><li>证券借贷</li><li>风险管理</li></ul></div></article>
+              <article id="market-bonds" hidden><div><p class="insight-kind">债券市场 / AI Trader 构想</p><h2>读懂利率，也读懂信用。</h2></div><div><p>分析收益率曲线、信用变化与久期敞口。报价、配置与回购融资围绕同一风险边界协调。</p><ul class="activity-list" aria-label="相关市场行为"><li>交易</li><li>做市</li><li>回购融资</li><li>风险管理</li></ul></div></article>
+              <article id="market-currencies" hidden><div><p class="insight-kind">货币与外汇 / AI Trader 构想</p><h2>让全球资金，在同一语境里流动。</h2></div><div><p>理解汇率、利差与跨币种敞口，协调兑换、双边报价和流动性管理；风险不因市场边界而被割裂。</p><ul class="activity-list" aria-label="相关市场行为"><li>兑换交易</li><li>做市</li><li>融资</li><li>汇率风险管理</li></ul></div></article>
+              <article id="market-commodities" hidden><div><p class="insight-kind">商品市场 / AI Trader 构想</p><h2>连接真实供需与市场判断。</h2></div><div><p>追踪能源、金属与农产品的供需、库存和交付约束，区分实物现货与相关衍生工具，协调交易与对冲。</p><ul class="activity-list" aria-label="相关市场行为"><li>现货交易</li><li>流动性提供</li><li>套期保值</li><li>风险管理</li></ul></div></article>
+              <article id="market-derivatives" hidden><div><p class="insight-kind">衍生合约 / AI Trader 构想</p><h2>管理未来的不确定性。</h2></div><div><p>期货与期权是基于标的的合约，而非新的基础资产类别。Trader 评估基差、波动率、保证金与组合敞口。</p><ul class="activity-list" aria-label="相关市场行为"><li>合约交易</li><li>做市</li><li>对冲</li><li>保证金风控</li></ul></div></article>
+            </figcaption>
+            <div class="execution-note"><span class="execution-symbol" aria-hidden="true"></span><p><strong>决策之后，是有边界的执行。</strong> 适用的链上场景由 EVM 执行智能合约；清算与结算属于独立的交易后流程。</p><a href="#network">理解市场结构 <span aria-hidden="true">↗</span></a></div>
+            <noscript><p class="scene-help-static">交互需要 JavaScript。完整的资产分类与市场职责说明在下方“市场结构”中。</p></noscript>
+          </figure>
+        </section>
+      </div>
+
+    <section class="thesis-section" id="thesis" aria-labelledby="thesis-title">
+      <div class="wrap thesis-grid">
+        <div class="section-side"><span class="section-kicker">名字背后的主张</span><span class="side-rule" aria-hidden="true"></span><span class="side-index">JEVM / 01</span></div>
+        <div class="thesis-main">
+          <h2 id="thesis-title">让智能与执行相遇。</h2>
+          <p>Jev 评估决策，以太坊虚拟机执行智能合约逻辑。JEVM 是连接两者的愿景：让专业 AI Traders 跨资产协作，每一步都具备明确授权、风险限额与可追溯结果。</p>
+        </div>
+        <div class="equation" aria-label="Jev 决策模型加上可编程执行构成 JEVM 愿景">
+          <div><strong>JEV</strong><span>决策模型</span><p>理解上下文，比较选择，给出结构化判断。</p></div>
+          <span class="equation-symbol" aria-hidden="true">+</span>
+          <div><strong>EVM</strong><span>可编程执行</span><p>编码规则，转移资产，让结果可以验证。</p></div>
+          <span class="equation-symbol" aria-hidden="true">=</span>
+          <div class="equation-result"><strong>JEVM</strong><span>智能运行时</span><p>让交易判断通向有边界、可追溯的市场行动。</p></div>
+        </div>
+        <div class="thesis-notes">
+          <p class="thesis-boundary">Jev 是决策模型；EVM 是执行环境，不是区块链本身，也不提供投资判断。这一组合描述的是我们的方向，并不代表完整集成已经实现。</p>
+          <div class="thesis-sources"><a href="https://docs.typesafe.ai/introduction" target="_blank" rel="noopener noreferrer">Jev 模型文档 <span aria-hidden="true">↗</span></a><a href="https://ethereum.org/developers/docs/evm/" target="_blank" rel="noopener noreferrer">了解 EVM <span aria-hidden="true">↗</span></a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="news-section" id="news" aria-labelledby="news-title">
+      <div class="wrap">
+        <div class="news-heading"><h2 id="news-title"><span>支持这一方向的行业信号</span>News / 正在发生</h2><p>资产上链，交易智能化。以下是行业发展的原始记录，不是 JEVM 的客户名单或合作伙伴背书。</p></div>
+        <div class="news-grid">
+          <article class="news-item news-featured">
+            <div class="news-meta"><span class="news-publisher">BlackRock</span><time datetime="2026-08-03">2026-08-03</time><span class="news-category">以太坊</span></div>
+            <h3>国债基金份额，来到以太坊。</h3>
+            <p class="news-summary">BlackRock 在以太坊上推出旗下 Select Treasury Based Liquidity Fund 的链上份额，可在获批投资者钱包之间转移，BNY 提供过户代理与代币化服务。</p>
+            <p class="news-interpretation"><strong>我们的解读</strong>机构现金管理产品开始拥有可编程的链上形态。这里代币化的是基金份额，并非美国国债本身；市场准入仍有限制。</p>
+            <a class="news-source" href="https://www.blackrock.com/cash/en-us/press-release-t3" target="_blank" rel="noopener noreferrer">阅读原始来源 <span aria-hidden="true">↗</span></a>
+          </article>
+          <div class="news-list">
+          <article class="news-item">
+            <div class="news-meta"><span class="news-publisher">SEC</span><time datetime="2026-09-17">2026-09-17</time><span class="news-category">有条件豁免</span></div>
+            <h3>链上股票交易，出现有条件的监管路径。</h3>
+            <p class="news-summary">SEC 为符合条件的场所提供临时、有条件豁免，允许通过许可制自动做市商与流动性池交易代币化 NMS 股票。标的限制、交易量上限及投资者保护要求仍适用。</p>
+            <p class="news-interpretation"><strong>我们的解读</strong>受监管的路径正在形成，但不等于所有交易平台均可自由开展业务，也不构成对 JEVM 的授权。</p>
+            <a class="news-source" href="https://www.sec.gov/newsroom/press-releases/2026-90-sec-issues-innovation-exemption-facilitate-trading-tokenized-nms-stock-request-comment" target="_blank" rel="noopener noreferrer">阅读原始来源 <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="news-item">
+            <div class="news-meta"><span class="news-publisher">J.P. Morgan</span><time datetime="2026-07-31">2026-07-31</time><span class="news-category">市场评论</span></div>
+            <h3>AI 正在改变交易工作流。</h3>
+            <p class="news-summary">J.P. Morgan 的市场结构评论讨论了 AI 在交易工作流和数据分析中的应用，以及区块链的采用；同时强调自动化决策受到受托责任、监管及运营约束。</p>
+            <p class="news-interpretation"><strong>我们的解读</strong>AI 辅助决策具备现实基础，但这篇评论不证明自主交易的业绩，也不验证 Jev 的模型表现。</p>
+            <a class="news-source" href="https://www.jpmorgan.com/insights/markets-and-economy/markets/technology-overtakes-liquidity-market-structure" target="_blank" rel="noopener noreferrer">阅读原始来源 <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="news-item">
+            <div class="news-meta"><span class="news-publisher">DTCC</span><time datetime="2026-07-15">2026-07-15</time><span class="news-category">生产交易里程碑</span></div>
+            <h3>代币化证券，进入真实交易流程。</h3>
+            <p class="news-summary">DTCC 将 DTC 托管的证券转换为代币，并用于抵押品、证券借贷等生产交易。转换发生于其私有 Besu 网络和 Canton；更广泛的服务当时计划于 10 月推出。</p>
+            <p class="news-interpretation"><strong>我们的解读</strong>机会已从资产发行延伸到市场运作。这是多链基础设施的发展，并不代表只采用以太坊，也不代表已与 JEVM 集成。</p>
+            <a class="news-source" href="https://www.dtcc.com/press-releases/2026/dtcc-turns-tokenization-into-reality" target="_blank" rel="noopener noreferrer">阅读原始来源 <span aria-hidden="true">↗</span></a>
+          </article>
+          </div>
+        </div>
+        <div class="news-disclaimer"><p>人工精选的行业记录，非实时新闻流。我们的解读与来源事实分开展示；报道不构成对 JEVM 的认可，不证明产品已实现，也不保证投资回报。</p><span>核验于 <time datetime="2026-09-28">2026-09-28</time></span></div>
+      </div>
+    </section>
+
+    <section class="scenario-section" id="scenario" aria-labelledby="scenario-title">
+      <div class="wrap">
+        <div class="section-heading-row"><span class="section-kicker">未来某一天</span><span class="scenario-label">构想场景 · 并非实时交易</span></div>
+        <h2 id="scenario-title">一个意外信号。<br>整个市场都在回应。</h2>
+        <p class="section-intro">一项利率决定突然超出预期。对传统交易台来说，影响散落在不同屏幕和团队里。在 JEVM 的构想中，专业 Traders 同时理解这个事件，并协调下一步行动。</p>
+        <div class="event-line" aria-label="利率决定引发的跨资产反应构想">
+          <div class="event-start"><span class="event-pulse" aria-hidden="true"></span><span>意外的利率决定</span><small>一个新信号进入网络</small></div>
+          <div class="event-stages">
+            <article><span class="stage-symbol">↗</span><h3>债券重新定价</h3><p>利率 Trader 重新评估收益率与信用敞口。</p></article>
+            <article><span class="stage-symbol">◇</span><h3>股票重新估值</h3><p>股票 Trader 检查融资成本敏感的公司。</p></article>
+            <article><span class="stage-symbol">≋</span><h3>期货寻找对冲</h3><p>期货 Trader 判断如何抵消共同风险。</p></article>
+            <article><span class="stage-symbol">◌</span><h3>期权调整判断</h3><p>期权 Trader 重估波动率与保护成本。</p></article>
+          </div>
+          <div class="event-resolution"><span class="resolution-label">整个网络协同</span><p>做市 Trader 更新双边报价；风控 Trader 检查合并敞口；执行遵守人设定的限额；交易后代理核对成交、清算与结算。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="network-section" id="network" aria-labelledby="network-title">
+      <div class="wrap">
+        <div class="section-heading-row"><span class="section-kicker">市场的两个维度</span><span class="side-index">JEVM / 02</span></div>
+        <div class="network-heading"><h2 id="network-title">什么在流通。<br>市场在做什么。</h2><p>一个 AI Trader 可以由三个坐标定义：交易对象、市场职责，以及人设定的权限边界。同一项资产可以被交易、报价、借贷或纳入风险管理。</p></div>
+        <div class="taxonomy-grid">
+          <div class="taxonomy-column">
+            <h3>资产与工具 <span>可交易的对象</span></h3>
+            <ul>
+              <li><strong>股票</strong><span>公司的所有权权益。</span></li>
+              <li><strong>债券</strong><span>承载发行人债务义务的证券。</span></li>
+              <li><strong>货币</strong><span>现金与外汇市场。</span></li>
+              <li><strong>商品</strong><span>实物商品及其现货市场。</span></li>
+              <li><strong>衍生品</strong><span>以其他市场为标的的期货和期权。</span></li>
+            </ul>
+          </div>
+          <div class="taxonomy-column">
+            <h3>市场活动与交易后流程 <span>参与者的工作</span></h3>
+            <ul>
+              <li><strong>交易</strong><span>买卖资产与合约。</span></li>
+              <li><strong>做市</strong><span>持续提供买卖双边报价。</span></li>
+              <li><strong>借贷</strong><span>出借或借入资产和资金。</span></li>
+              <li><strong>风控</strong><span>衡量并限制风险敞口。</span></li>
+              <li><strong>清算</strong><span>适用时核对交易并确定义务。</span></li>
+              <li><strong>结算</strong><span>完成应有的资产与资金转移。</span></li>
+            </ul>
+          </div>
+        </div>
+        <p class="taxonomy-sources">分类依据：<a href="https://www.imf.org/en/-/media/files/data/guides/mfsmcg-final.pdf" target="_blank" rel="noopener noreferrer">IMF 金融工具分类</a> · <a href="https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/FuturesMarketBasics/index.htm" target="_blank" rel="noopener noreferrer">CFTC 期货说明</a> · <a href="https://www.bis.org/committees/cpmi/glossary" target="_blank" rel="noopener noreferrer">BIS 清算与结算术语</a> · <a href="https://ethereum.org/developers/docs/evm/" target="_blank" rel="noopener noreferrer">以太坊 EVM 文档</a></p>
+      </div>
+    </section>
+
+    <section class="runtime-section" aria-labelledby="runtime-title">
+      <div class="wrap runtime-grid">
+        <div><span class="section-kicker">运行方式</span><h2 id="runtime-title">从市场信息，到可追溯的行动。</h2><p class="runtime-lead">只有能够解释判断、遵守边界并完成后续工作，决策才真正有用。JEVM 将这些责任连接成一条闭环。</p></div>
+        <ol class="runtime-steps">
+          <li><span>观察</span><p>将行情、仓位和合约状态放进共同上下文。</p></li>
+          <li><span>判断</span><p>向 Jev 提出有边界的问题，比较可能的行动。</p></li>
+          <li><span>执行</span><p>在执行之前，应用人设定的权限与风险限额。</p></li>
+          <li><span>核验</span><p>跟踪订单、成交、结算，以及每一步背后的理由。</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="proof-section" id="today" aria-labelledby="proof-title">
+      <div class="wrap proof-grid">
+        <div><span class="section-kicker">今天的进展</span><h2 id="proof-title">愿景足够大。<br>实践可以亲自看。</h2></div>
+        <div class="proof-copy"><p>Jev Trader 是一个公开实验：把市场数据、模型式决策和执行记录连接起来。目前的看板使用公开行情、模拟订单与本地模拟决策；TypeSafe AI 的 Jev 决策模型接入仍在推进中。</p><p>你可以打开演示，检查交易流程，再判断这条路是否值得走。</p><div class="proof-links"><a href="https://jev-trader.com/" target="_blank" rel="noopener noreferrer">查看交易演示 <span aria-hidden="true">↗</span></a><a href="https://docs.typesafe.ai/introduction" target="_blank" rel="noopener noreferrer">阅读 Jev 模型官方资料 <span aria-hidden="true">↗</span></a><a href="https://github.com/web3w/jev-trader" target="_blank" rel="noopener noreferrer">查看项目源码 <span aria-hidden="true">↗</span></a></div></div>
+      </div>
+    </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-main"><p>无数个 Traders。<br><span>同一个智能运行时。</span></p><a href="#main">返回顶部 <span aria-hidden="true">↑</span></a></div>
+      <div class="wrap footer-bottom"><span class="footer-brand">JEVM<span class="footer-dot">.</span>ai</span><span>Intelligence Runtime for Traders</span><span>愿景与构想场景 © 2026 JEVM</span><a href="/" lang="en" hreflang="en">English</a></div>
+    </footer>
+  </body>
+</html>

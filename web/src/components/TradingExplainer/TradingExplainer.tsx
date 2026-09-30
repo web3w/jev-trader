@@ -4,10 +4,10 @@ import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import ModelRequestDetails from "@/components/ModelRequestDetails/ModelRequestDetails";
 import type { Messages } from "@/lib/i18n";
-import type { BlockEvent, Meta } from "@/lib/types";
+import type { BlockEvent, Meta, Venue } from "@/lib/types";
 import styles from "./TradingExplainer.module.css";
 
-export default function TradingExplainer({ meta, messages, requestEvent }: { meta: Meta | null; messages: Messages; requestEvent: BlockEvent | null }) {
+export default function TradingExplainer({ venue, meta, messages, requestEvent }: { venue: Venue; meta: Meta | null; messages: Messages; requestEvent: BlockEvent | null }) {
   const [playing, setPlaying] = useState(true);
   const [requestCase, setRequestCase] = useState<{ event: BlockEvent; meta: Meta | null } | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -17,9 +17,10 @@ export default function TradingExplainer({ meta, messages, requestEvent }: { met
   useEffect(() => {
     if (requestCase) dialogRef.current?.showModal();
   }, [requestCase]);
-  const isHyperliquid = meta?.venue === "hyperliquid";
+  // Market descriptions remain readable before the live feed connects.
+  const isHyperliquid = venue === "hyperliquid";
   const modelDescription = !meta?.model ? messages.howConnecting : meta.model === "mock" ? messages.howMock : messages.howJev;
-  const market = meta ? `${meta.symbol} / ${isHyperliquid ? "Hyperliquid" : "Kuru"}` : messages.howConnecting;
+  const market = isHyperliquid ? "HYPE/USDC / Hyperliquid" : "MON/USDC / Kuru";
   // This animation explains the flow only; it neither subscribes to fills nor claims to show live orders.
   const steps = [
     { title: messages.howMarketStep, body: messages.howMarketBody },
@@ -32,7 +33,7 @@ export default function TradingExplainer({ meta, messages, requestEvent }: { met
     { label: messages.howPriceLabel, value: messages.howPriceBody },
     { label: messages.howBookLabel, value: messages.howBookBody },
     { label: messages.howTrendLabel, value: messages.howTrendBody },
-    { label: messages.howTradesLabel, value: !meta ? messages.howConnecting : isHyperliquid ? messages.howTradesHyper : messages.howTradesKuru },
+    { label: messages.howTradesLabel, value: isHyperliquid ? messages.howTradesHyper : messages.howTradesKuru },
     { label: messages.howAllowedLabel, value: messages.howAllowedBody },
   ];
 
@@ -105,21 +106,21 @@ export default function TradingExplainer({ meta, messages, requestEvent }: { met
           <section className={styles.instruction}>
             <h3 className={styles.sectionTitle}>{messages.howInstructionTitle}</h3>
             <p>{messages.howInstructionBody}</p>
-            <p className={styles.timing}>{!meta ? messages.howConnecting : isHyperliquid ? messages.howTimingHyper : messages.howTimingKuru}</p>
+            <p className={styles.timing}>{isHyperliquid ? messages.howTimingHyper : messages.howTimingKuru}</p>
           </section>
           <section className={styles.boundary}>
             <h3 className={styles.sectionTitle}>{messages.howBoundaryTitle}</h3>
             <ul>
               <li>{messages.howIndependent}</li>
               <li>{messages.howMissingAccount}</li>
-              <li>{!meta ? messages.howConnecting : isHyperliquid ? messages.howBlockHyper : messages.howBlockKuru}</li>
+              <li>{isHyperliquid ? messages.howBlockHyper : messages.howBlockKuru}</li>
             </ul>
           </section>
         </div>
       </div>
       <div className={styles.guideFooter}>
         <Link
-          href="/jev-ai-decision-model"
+          href="/faq/jev-ai-decision-model"
           className={styles.guideLink}
           target="_blank"
           rel="noopener noreferrer"

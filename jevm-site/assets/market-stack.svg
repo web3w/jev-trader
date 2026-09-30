@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="asset-top" x1="80" y1="65" x2="540" y2="240" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2D6570" stop-opacity=".96"/>
+      <stop offset="1" stop-color="#11323F" stop-opacity=".98"/>
+    </linearGradient>
+    <linearGradient id="asset-rim" x1="70" y1="145" x2="570" y2="255" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#57A0A4" stop-opacity=".7"/>
+      <stop offset="1" stop-color="#143B47" stop-opacity=".8"/>
+    </linearGradient>
+    <linearGradient id="action-top" x1="80" y1="350" x2="550" y2="525" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#554339"/>
+      <stop offset="1" stop-color="#26363B"/>
+    </linearGradient>
+    <linearGradient id="action-rim" x1="80" y1="425" x2="560" y2="550" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A16D50" stop-opacity=".8"/>
+      <stop offset="1" stop-color="#3A3B3A" stop-opacity=".8"/>
+    </linearGradient>
+    <radialGradient id="core" cx="0" cy="0" r="1" gradientTransform="translate(291 261) rotate(44) scale(132)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset=".62" stop-color="#DFF2EE"/>
+      <stop offset="1" stop-color="#A4C7C7"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(320 305) rotate(90) scale(150)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D1F5EC" stop-opacity=".23"/>
+      <stop offset="1" stop-color="#D1F5EC" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="evm-rail" x1="170" y1="550" x2="470" y2="605" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3E6F77"/>
+      <stop offset=".5" stop-color="#A1C6C3"/>
+      <stop offset="1" stop-color="#305864"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="320" cy="304" rx="160" ry="154" fill="url(#glow)"/>
+  <path d="M320 210v344" stroke="#8AA6A8" stroke-opacity=".6" stroke-dasharray="3 8"/>
+  <path d="M206 262v94M434 262v94" stroke="#8AA6A8" stroke-opacity=".24"/>
+
+  <ellipse cx="320" cy="584" rx="161" ry="31" fill="#0A1D27" opacity=".8"/>
+  <ellipse cx="320" cy="574" rx="161" ry="31" fill="url(#evm-rail)" fill-opacity=".38" stroke="#96C1BD" stroke-opacity=".58"/>
+  <ellipse cx="320" cy="574" rx="125" ry="21" stroke="#A8D1CC" stroke-opacity=".22"/>
+
+  <ellipse cx="320" cy="459" rx="270" ry="87" fill="url(#action-rim)" stroke="#BB8A69" stroke-opacity=".52"/>
+  <ellipse cx="320" cy="432" rx="270" ry="87" fill="url(#action-top)" stroke="#BE9375" stroke-opacity=".78" stroke-width="1.5"/>
+  <ellipse cx="320" cy="432" rx="230" ry="69" stroke="#D4AA8B" stroke-opacity=".2"/>
+  <path d="M92 432h456M320 345v174M157 379l326 106M157 485l326-106" stroke="#D4AA8B" stroke-opacity=".12"/>
+  <path d="M84 477c43 25 126 42 236 42s193-17 236-42" stroke="#E2B190" stroke-opacity=".42"/>
+
+  <ellipse cx="320" cy="171" rx="270" ry="87" fill="url(#asset-rim)" stroke="#8DC7C5" stroke-opacity=".52"/>
+  <ellipse cx="320" cy="144" rx="270" ry="87" fill="url(#asset-top)" stroke="#8FC9C8" stroke-opacity=".83" stroke-width="1.5"/>
+  <ellipse cx="320" cy="144" rx="230" ry="69" stroke="#A7D8D4" stroke-opacity=".23"/>
+  <path d="M92 144h456M320 57v174M157 91l326 106M157 197 483 91" stroke="#A7D8D4" stroke-opacity=".13"/>
+  <path d="M84 189c43 25 126 42 236 42s193-17 236-42" stroke="#BFE3DD" stroke-opacity=".46"/>
+
+  <circle cx="320" cy="298" r="88" stroke="#D5ECE8" stroke-opacity=".16"/>
+  <circle cx="320" cy="298" r="73" fill="#B9D5D1" fill-opacity=".12" stroke="#D5ECE8" stroke-opacity=".48"/>
+  <circle cx="320" cy="298" r="63" fill="url(#core)"/>
+  <path d="M274 269c12-19 30-26 49-26" stroke="#FFFFFF" stroke-opacity=".75" stroke-linecap="round" stroke-width="4"/>
+</svg>

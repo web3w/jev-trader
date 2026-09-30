@@ -12,11 +12,11 @@ export function scoreFaqMetadata(locale: Locale): Metadata {
     title,
     description: copy.intro,
     alternates: { canonical, languages: { ...scoreFaqUrls, "x-default": scoreFaqUrls.en } },
-    openGraph: {
+    openGraph: { images: [{ url: "https://jev-trader.com/og.png", width: 800, height: 419, alt: "Jev Trader — From market data to a trading decision" }],
       title, description: copy.intro, url: canonical, siteName: "Jev Trader", type: "article",
       locale: { en: "en_US", "zh-CN": "zh_CN", ko: "ko_KR" }[locale],
     },
-    twitter: { card: "summary", title, description: copy.intro },
+    twitter: { card: "summary_large_image", images: ["https://jev-trader.com/og.png"], title, description: copy.intro },
   };
 }
 

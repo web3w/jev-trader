@@ -1,9 +1,11 @@
 import type { Messages } from "@/lib/i18n";
-import type { ConnectionState, Meta } from "@/lib/types";
+import type { ConnectionState, Meta, Venue } from "@/lib/types";
 import styles from "./NetworkFooter.module.css";
 
-export default function NetworkFooter({ meta, messages, connection }: { meta: Meta | null; messages: Messages; connection: ConnectionState }) {
-  const isHyperliquid = meta?.venue === "hyperliquid";
+export default function NetworkFooter({ venue, meta, messages, connection }: { venue: Venue; meta: Meta | null; messages: Messages; connection: ConnectionState }) {
+  // Static market identity comes from the route, while status and addresses come from the feed.
+  const isHyperliquid = venue === "hyperliquid";
+  const marketStatus = connection === "live" ? meta?.marketStatus ?? "connecting" : connection;
   const isMonad = meta?.venue === "kuru" && meta.chainId === 143;
   // Addresses come from the running backend; HyperCore spot markets do not show EVM contract details.
   const contracts = [
@@ -28,19 +30,19 @@ export default function NetworkFooter({ meta, messages, connection }: { meta: Me
         </div>
         <div>
           <dt>{messages.tradingMarket}</dt>
-          <dd>{meta?.symbol ?? "-"}{isHyperliquid ? ` ${messages.spot}` : ""}</dd>
+          <dd>{isHyperliquid ? "HYPE/USDC" : "MON/USDC"}{isHyperliquid ? ` ${messages.spot}` : ""}</dd>
         </div>
         {isHyperliquid ? (
           <div>
             <dt>{messages.dataStatus}</dt>
-            <dd>{connection !== "live" ? messages[connection] : meta.marketStatus === "live" ? messages.liveMarket : messages[meta.marketStatus]}</dd>
+            <dd>{marketStatus === "live" ? messages.liveMarket : messages[marketStatus]}</dd>
           </div>
         ) : null}
       </dl>
       {isHyperliquid ? (
         <div className={styles.marketDetails}>
-          <a href={meta.marketUrl} target="_blank" rel="noreferrer">{messages.viewMarket} ↗</a>
-          <span>{messages.paperTrading}</span>
+          {meta?.marketUrl ? <a href={meta.marketUrl} target="_blank" rel="noreferrer">{messages.viewMarket} ↗</a> : null}
+          {meta?.dryRun ? <span>{messages.paperTrading}</span> : null}
           <p className={styles.note}>{messages.simulationNote}</p>
         </div>
       ) : (

@@ -25,8 +25,8 @@ test("markets start independently; repeated requests neither restart nor clear a
   await sessions.ensureStarted("kuru");
   expect(calls).toEqual(["start hyperliquid", "start kuru"]);
   expect(sessions.get("kuru")).toBe(kuru);
-  expect(sessions.snapshot("kuru").history).toBe(kuru.history);
-  expect(sessions.snapshot().history).toBe(hyperliquid.history);
+  expect(sessions.snapshot("kuru").history).toEqual(kuru.history);
+  expect(sessions.snapshot().history).toEqual(hyperliquid.history);
   expect(sessions.snapshot("kuru").revision).toBe(kuruRevision);
   expect(sessions.snapshot().revision).toBe(hyperRevision);
 });

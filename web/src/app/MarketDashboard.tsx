@@ -24,21 +24,23 @@ export default function MarketDashboard({ venue }: { venue: Venue }) {
     <>
       <div className="card">
         <Header meta={feed.meta} latest={feed.latest} connection={feed.connection} messages={messages} locale={locale} onLanguageChange={changeLanguage} activeVenue={venue} loading={feed.loading} error={feed.error} />
-        <StatsRow latest={feed.latest} avgLatencyMs={feed.avgLatencyMs} meta={feed.meta} messages={messages} />
-        <div className={styles.main}>
-          <div className={styles.left}>
-            <div className={styles.chartWrap}>
-              <FlowChart key={`${feed.meta?.venue}-${feed.meta?.revision}`} meta={feed.meta} events={feed.events} latest={feed.latest} messages={messages} />
+        <div id="trading-dashboard" className={styles.dashboard}>
+          <StatsRow latest={feed.latest} avgLatencyMs={feed.avgLatencyMs} meta={feed.meta} messages={messages} />
+          <div className={styles.main}>
+            <div className={styles.left}>
+              <div className={styles.chartWrap}>
+                <FlowChart key={`${feed.meta?.venue}-${feed.meta?.revision}`} meta={feed.meta} events={feed.events} latest={feed.latest} messages={messages} />
+              </div>
+            </div>
+            <div className={styles.right}>
+              <DecisionPanel venue={venue} latest={feed.latest} messages={messages} />
+              <Feed key={`${feed.meta?.venue}-${feed.meta?.revision}`} meta={feed.meta} events={feed.events} messages={messages} />
             </div>
           </div>
-          <div className={styles.right}>
-            <DecisionPanel meta={feed.meta} latest={feed.latest} messages={messages} />
-            <Feed key={`${feed.meta?.venue}-${feed.meta?.revision}`} meta={feed.meta} events={feed.events} messages={messages} />
-          </div>
         </div>
-        <NetworkFooter meta={feed.meta} messages={messages} connection={feed.connection} />
+        <NetworkFooter venue={venue} meta={feed.meta} messages={messages} connection={feed.connection} />
       </div>
-      <TradingExplainer key={`${feed.meta?.venue}-${feed.meta?.revision}`} meta={feed.meta} messages={messages} requestEvent={requestEvent} />
+      <TradingExplainer key={`${feed.meta?.venue}-${feed.meta?.revision}`} venue={venue} meta={feed.meta} messages={messages} requestEvent={requestEvent} />
       <SiteFooter locale={locale} />
     </>
   );

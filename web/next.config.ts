@@ -9,7 +9,8 @@ const nextConfig: NextConfig = {
     return [
       { source: "/hyperliquid/HYPE/USDC", destination: "/hyperliquid-hype-usdc", permanent: true },
       { source: "/kuru/MON/USDC", destination: "/kuru-mon-usdc", permanent: true },
-      { source: "/jev", destination: "/jev-ai-decision-model", permanent: true },
+      { source: "/jev", destination: "/faq/jev-ai-decision-model", permanent: true },
+      { source: "/jev-ai-decision-model", destination: "/faq/jev-ai-decision-model", permanent: true },
     ];
   },
 };

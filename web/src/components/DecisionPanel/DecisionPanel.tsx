@@ -1,13 +1,13 @@
 "use client";
 
-import type { BlockEvent, Meta } from "@/lib/types";
+import type { BlockEvent, Venue } from "@/lib/types";
 import type { Messages } from "@/lib/i18n";
 import { fmtPct } from "@/lib/format";
 import styles from "./DecisionPanel.module.css";
 
 export interface DecisionPanelProps {
   latest: BlockEvent | null;
-  meta: Meta | null;
+  venue: Venue;
   messages: Messages;
 }
 
@@ -50,7 +50,9 @@ function BarRow({ label, labelColor, active, value, fill, pct }: BarRowProps) {
   );
 }
 
-export default function DecisionPanel({ latest, meta, messages }: DecisionPanelProps) {
+export default function DecisionPanel({ latest, venue, messages }: DecisionPanelProps) {
+  // The route identifies the market before live metadata arrives.
+  const isHyperliquid = venue === "hyperliquid";
   const decision = latest?.decision ?? null;
   const late = decision ? decision.late : true;
   // "hold" is treated as a non-decision, exactly as the feed does.
@@ -63,12 +65,12 @@ export default function DecisionPanel({ latest, meta, messages }: DecisionPanelP
   const decided = decision !== null && !late && chosen !== null;
   const pctOf = (p: number) => (decided ? fmtPct(p) : "-");
 
-  const headline = messages[chosen ?? (!decision && meta?.venue === "hyperliquid" ? "noDecision" : decision && !late ? "hold" : "late")].toUpperCase();
+  const headline = messages[chosen ?? (!decision && isHyperliquid ? "noDecision" : decision && !late ? "hold" : "late")].toUpperCase();
   const headlineColor = chosen
     ? chosen === "buy"
       ? "var(--buy-ink)"
       : "var(--sell-ink)"
-    : !decision && meta?.venue === "hyperliquid" ? "var(--muted)" : "var(--late-ink)";
+    : !decision && isHyperliquid ? "var(--muted)" : "var(--late-ink)";
   const headlinePct = chosen ? fmtPct(probs[chosen]) : "";
 
   return (
@@ -76,13 +78,13 @@ export default function DecisionPanel({ latest, meta, messages }: DecisionPanelP
       <section className={styles.section}>
         <div className={styles.sectionLabel}>{messages.standingOrder}</div>
         <div className={styles.order}>
-          {meta?.venue === "hyperliquid" ? messages.spotInstruction : messages.orderInstruction}
+          {isHyperliquid ? messages.spotInstruction : messages.orderInstruction}
         </div>
       </section>
 
       <section className={styles.section}>
         <div className={`${styles.sectionLabel} ${styles.sectionLabelGap}`}>
-          {meta?.venue === "hyperliquid" ? messages.decisionDirection : messages.whichSide}
+          {isHyperliquid ? messages.decisionDirection : messages.whichSide}
         </div>
 
         <div className={styles.headline} style={{ color: headlineColor }}>

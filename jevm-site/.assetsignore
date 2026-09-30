@@ -1,0 +1,12 @@
+# Upload only public site files, never local configuration or documentation.
+*
+!index.html
+!zh/
+!zh/index.html
+!assets/
+!assets/*.css
+!assets/*.js
+!assets/*.mjs
+!assets/*.svg
+!robots.txt
+!sitemap.xml
